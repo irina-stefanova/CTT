@@ -20326,269 +20326,446 @@ cr.plugins_.WebStorage = function(runtime)
 }());
 ;
 ;
-cr.plugins_.sliderbar = function(runtime)
+cr.behaviors.DragnDrop = function(runtime)
+{
+	this.runtime = runtime;
+	var self = this;
+	if (!this.runtime.isDomFree)
+	{
+		jQuery(document).mousemove(
+			function(info) {
+				self.onMouseMove(info);
+			}
+		);
+		jQuery(document).mousedown(
+			function(info) {
+				self.onMouseDown(info);
+			}
+		);
+		jQuery(document).mouseup(
+			function(info) {
+				self.onMouseUp(info);
+			}
+		);
+	}
+	var elem = (this.runtime.fullscreen_mode > 0) ? document : this.runtime.canvas;
+	if (this.runtime.isDirectCanvas)
+		elem = window["Canvas"];
+	else if (this.runtime.isCocoonJs)
+		elem = window;
+	if (window.navigator["pointerEnabled"])
+	{
+		elem.addEventListener("pointerdown",
+			function(info) {
+				self.onPointerStart(info);
+			},
+			false
+		);
+		elem.addEventListener("pointermove",
+			function(info) {
+				self.onPointerMove(info);
+			},
+			false
+		);
+		elem.addEventListener("pointerup",
+			function(info) {
+				self.onPointerEnd(info);
+			},
+			false
+		);
+		elem.addEventListener("pointercancel",
+			function(info) {
+				self.onPointerEnd(info);
+			},
+			false
+		);
+	}
+	else if (window.navigator["msPointerEnabled"])
+	{
+		elem.addEventListener("MSPointerDown",
+			function(info) {
+				self.onPointerStart(info);
+			},
+			false
+		);
+		elem.addEventListener("MSPointerMove",
+			function(info) {
+				self.onPointerMove(info);
+			},
+			false
+		);
+		elem.addEventListener("MSPointerUp",
+			function(info) {
+				self.onPointerEnd(info);
+			},
+			false
+		);
+		elem.addEventListener("MSPointerCancel",
+			function(info) {
+				self.onPointerEnd(info);
+			},
+			false
+		);
+	}
+	else
+	{
+		elem.addEventListener("touchstart",
+			function(info) {
+				self.onTouchStart(info);
+			},
+			false
+		);
+		elem.addEventListener("touchmove",
+			function(info) {
+				self.onTouchMove(info);
+			},
+			false
+		);
+		elem.addEventListener("touchend",
+			function(info) {
+				self.onTouchEnd(info);
+			},
+			false
+		);
+		elem.addEventListener("touchcancel",
+			function(info) {
+				self.onTouchEnd(info);
+			},
+			false
+		);
+	}
+};
+(function ()
+{
+	var behaviorProto = cr.behaviors.DragnDrop.prototype;
+	var dummyoffset = {left: 0, top: 0};
+	function GetDragDropBehavior(inst)
+	{
+		var i, len;
+		for (i = 0, len = inst.behavior_insts.length; i < len; i++)
+		{
+			if (inst.behavior_insts[i] instanceof behaviorProto.Instance)
+				return inst.behavior_insts[i];
+		}
+		return null;
+	};
+	behaviorProto.onMouseDown = function (info)
+	{
+		if (info.which !== 1)
+			return;		// not left mouse button
+		this.onInputDown("leftmouse", info.pageX, info.pageY);
+	};
+	behaviorProto.onMouseMove = function (info)
+	{
+		if (info.which !== 1)
+			return;		// not left mouse button
+		this.onInputMove("leftmouse", info.pageX, info.pageY);
+	};
+	behaviorProto.onMouseUp = function (info)
+	{
+		if (info.which !== 1)
+			return;		// not left mouse button
+		this.onInputUp("leftmouse");
+	};
+	behaviorProto.onTouchStart = function (info)
+	{
+		if (info.preventDefault && cr.isCanvasInputEvent(info))
+			info.preventDefault();
+		var i, len, t, id;
+		for (i = 0, len = info.changedTouches.length; i < len; i++)
+		{
+			t = info.changedTouches[i];
+			id = t.identifier;
+			this.onInputDown(id ? id.toString() : "<none>", t.pageX, t.pageY);
+		}
+	};
+	behaviorProto.onTouchMove = function (info)
+	{
+		if (info.preventDefault)
+			info.preventDefault();
+		var i, len, t, id;
+		for (i = 0, len = info.changedTouches.length; i < len; i++)
+		{
+			t = info.changedTouches[i];
+			id = t.identifier;
+			this.onInputMove(id ? id.toString() : "<none>", t.pageX, t.pageY);
+		}
+	};
+	behaviorProto.onTouchEnd = function (info)
+	{
+		if (info.preventDefault && cr.isCanvasInputEvent(info))
+			info.preventDefault();
+		var i, len, t, id;
+		for (i = 0, len = info.changedTouches.length; i < len; i++)
+		{
+			t = info.changedTouches[i];
+			id = t.identifier;
+			this.onInputUp(id ? id.toString() : "<none>");
+		}
+	};
+	behaviorProto.onPointerStart = function (info)
+	{
+		if (info["pointerType"] === info["MSPOINTER_TYPE_MOUSE"] || info["pointerType"] === "mouse")
+			return;
+		if (info.preventDefault && cr.isCanvasInputEvent(info))
+			info.preventDefault();
+		this.onInputDown(info["pointerId"].toString(), info.pageX, info.pageY);
+	};
+	behaviorProto.onPointerMove = function (info)
+	{
+		if (info["pointerType"] === info["MSPOINTER_TYPE_MOUSE"] || info["pointerType"] === "mouse")
+			return;
+		if (info.preventDefault)
+			info.preventDefault();
+		this.onInputMove(info["pointerId"].toString(), info.pageX, info.pageY);
+	};
+	behaviorProto.onPointerEnd = function (info)
+	{
+		if (info["pointerType"] === info["MSPOINTER_TYPE_MOUSE"] || info["pointerType"] === "mouse")
+			return;
+		if (info.preventDefault && cr.isCanvasInputEvent(info))
+			info.preventDefault();
+		this.onInputUp(info["pointerId"].toString());
+	};
+	behaviorProto.onInputDown = function (src, pageX, pageY)
+	{
+		var offset = this.runtime.isDomFree ? dummyoffset : jQuery(this.runtime.canvas).offset();
+		var x = pageX - offset.left;
+		var y = pageY - offset.top;
+		var lx, ly, topx, topy;
+		var arr = this.my_instances.valuesRef();
+		var i, len, b, inst, topmost = null;
+		for (i = 0, len = arr.length; i < len; i++)
+		{
+			inst = arr[i];
+			b = GetDragDropBehavior(inst);
+			if (!b.enabled || b.dragging)
+				continue;		// don't consider disabled or already-dragging instances
+			lx = inst.layer.canvasToLayer(x, y, true);
+			ly = inst.layer.canvasToLayer(x, y, false);
+			inst.update_bbox();
+			if (!inst.contains_pt(lx, ly))
+				continue;		// don't consider instances not over this point
+			if (!topmost)
+			{
+				topmost = inst;
+				topx = lx;
+				topy = ly;
+				continue;
+			}
+			if (inst.layer.index > topmost.layer.index)
+			{
+				topmost = inst;
+				topx = lx;
+				topy = ly;
+				continue;
+			}
+			if (inst.layer.index === topmost.layer.index && inst.get_zindex() > topmost.get_zindex())
+			{
+				topmost = inst;
+				topx = lx;
+				topy = ly;
+				continue;
+			}
+		}
+		if (topmost)
+			GetDragDropBehavior(topmost).onDown(src, topx, topy);
+	};
+	behaviorProto.onInputMove = function (src, pageX, pageY)
+	{
+		var offset = this.runtime.isDomFree ? dummyoffset : jQuery(this.runtime.canvas).offset();
+		var x = pageX - offset.left;
+		var y = pageY - offset.top;
+		var lx, ly;
+		var arr = this.my_instances.valuesRef();
+		var i, len, b, inst;
+		for (i = 0, len = arr.length; i < len; i++)
+		{
+			inst = arr[i];
+			b = GetDragDropBehavior(inst);
+			if (!b.enabled || !b.dragging || (b.dragging && b.dragsource !== src))
+				continue;		// don't consider disabled, not-dragging, or dragging by other sources
+			lx = inst.layer.canvasToLayer(x, y, true);
+			ly = inst.layer.canvasToLayer(x, y, false);
+			b.onMove(lx, ly);
+		}
+	};
+	behaviorProto.onInputUp = function (src)
+	{
+		var arr = this.my_instances.valuesRef();
+		var i, len, b, inst;
+		for (i = 0, len = arr.length; i < len; i++)
+		{
+			inst = arr[i];
+			b = GetDragDropBehavior(inst);
+			if (b.dragging && b.dragsource === src)
+				b.onUp();
+		}
+	};
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+	var behtypeProto = behaviorProto.Type.prototype;
+	behtypeProto.onCreate = function()
+	{
+	};
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	var behinstProto = behaviorProto.Instance.prototype;
+	behinstProto.onCreate = function()
+	{
+		this.dragging = false;
+		this.dx = 0;
+		this.dy = 0;
+		this.dragsource = "<none>";
+		this.axes = this.properties[0];
+		this.enabled = (this.properties[1] !== 0);
+	};
+	behinstProto.saveToJSON = function ()
+	{
+		return { "enabled": this.enabled };
+	};
+	behinstProto.loadFromJSON = function (o)
+	{
+		this.enabled = o["enabled"];
+		this.dragging = false;
+	};
+	behinstProto.onDown = function(src, x, y)
+	{
+		this.dx = x - this.inst.x;
+		this.dy = y - this.inst.y;
+		this.dragging = true;
+		this.dragsource = src;
+		this.runtime.isInUserInputEvent = true;
+		this.runtime.trigger(cr.behaviors.DragnDrop.prototype.cnds.OnDragStart, this.inst);
+		this.runtime.isInUserInputEvent = false;
+	};
+	behinstProto.onMove = function(x, y)
+	{
+		var newx = x - this.dx;
+		var newy = y - this.dy;
+		if (this.axes === 0)		// both
+		{
+			if (this.inst.x !== newx || this.inst.y !== newy)
+			{
+				this.inst.x = newx;
+				this.inst.y = newy;
+				this.inst.set_bbox_changed();
+			}
+		}
+		else if (this.axes === 1)	// horizontal
+		{
+			if (this.inst.x !== newx)
+			{
+				this.inst.x = newx;
+				this.inst.set_bbox_changed();
+			}
+		}
+		else if (this.axes === 2)	// vertical
+		{
+			if (this.inst.y !== newy)
+			{
+				this.inst.y = newy;
+				this.inst.set_bbox_changed();
+			}
+		}
+	};
+	behinstProto.onUp = function()
+	{
+		this.dragging = false;
+		this.runtime.isInUserInputEvent = true;
+		this.runtime.trigger(cr.behaviors.DragnDrop.prototype.cnds.OnDrop, this.inst);
+		this.runtime.isInUserInputEvent = false;
+	};
+	behinstProto.tick = function ()
+	{
+	};
+	function Cnds() {};
+	Cnds.prototype.IsDragging = function ()
+	{
+		return this.dragging;
+	};
+	Cnds.prototype.OnDragStart = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnDrop = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.IsEnabled = function ()
+	{
+		return !!this.enabled;
+	};
+	behaviorProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.SetEnabled = function (s)
+	{
+		this.enabled = (s !== 0);
+		if (!this.enabled)
+			this.dragging = false;
+	};
+	Acts.prototype.Drop = function ()
+	{
+		if (this.dragging)
+			this.onUp();
+	};
+	behaviorProto.acts = new Acts();
+	function Exps() {};
+	behaviorProto.exps = new Exps();
+}());
+;
+;
+cr.behaviors.Persist = function(runtime)
 {
 	this.runtime = runtime;
 };
 (function ()
 {
-	var pluginProto = cr.plugins_.sliderbar.prototype;
-	pluginProto.Type = function(plugin)
+	var behaviorProto = cr.behaviors.Persist.prototype;
+	behaviorProto.Type = function(behavior, objtype)
 	{
-		this.plugin = plugin;
-		this.runtime = plugin.runtime;
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
 	};
-	var typeProto = pluginProto.Type.prototype;
-	typeProto.onCreate = function()
+	var behtypeProto = behaviorProto.Type.prototype;
+	behtypeProto.onCreate = function()
 	{
 	};
-	pluginProto.Instance = function(type)
+	behaviorProto.Instance = function(type, inst)
 	{
 		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
 		this.runtime = type.runtime;
 	};
-	var instanceProto = pluginProto.Instance.prototype;
-	instanceProto.onCreate = function()
+	var behinstProto = behaviorProto.Instance.prototype;
+	behinstProto.onCreate = function()
 	{
-		if (this.runtime.isDomFree)
-		{
-			cr.logexport("[Construct 2] Slider Bar plugin not supported on this platform - the object will not be created");
-			return;
-		}
-		this.elem = document.createElement("input");
-		this.elem.type = "range";
-		this.elem["max"] = this.properties[2];
-		this.elem["min"] = this.properties[1];
-		this.elem["step"] = this.properties[3];
-		this.elem["value"] = this.properties[0];
-		this.elem.disabled = (this.properties[6] === 0);
-		this.elem.id = this.properties[7];
-		this.elem.title = this.properties[4];
-		jQuery(this.elem).appendTo(this.runtime.canvasdiv ? this.runtime.canvasdiv : "body");
-		this.element_hidden = false;
-		if (this.properties[5] === 0)
-		{
-			jQuery(this.elem).hide();
-			this.visible = false;
-			this.element_hidden = true;
-		}
-		this.elem.onclick = (function (self) {
-			return function(e) {
-				e.stopPropagation();
-				self.runtime.isInUserInputEvent = true;
-				self.runtime.trigger(cr.plugins_.sliderbar.prototype.cnds.OnClicked, self);
-				self.runtime.isInUserInputEvent = false;
-			};
-		})(this);
-		this.elem.onchange = (function (self) {
-			return function(e) {
-				self.runtime.isInUserInputEvent = true;
-				self.runtime.trigger(cr.plugins_.sliderbar.prototype.cnds.OnChanged, self);
-				self.runtime.isInUserInputEvent = false;
-			};
-		})(this);
-		this.elem.addEventListener("touchstart", function (e) {
-			e.stopPropagation();
-		}, false);
-		this.elem.addEventListener("touchmove", function (e) {
-			e.stopPropagation();
-		}, false);
-		this.elem.addEventListener("touchend", function (e) {
-			e.stopPropagation();
-		}, false);
-		jQuery(this.elem).mousedown(function (e) {
-			e.stopPropagation();
-		});
-		jQuery(this.elem).mouseup(function (e) {
-			e.stopPropagation();
-		});
-		jQuery(this.elem).keydown(function (e) {
-			e.stopPropagation();
-		});
-		jQuery(this.elem).keyup(function (e) {
-			e.stopPropagation();
-		});
-		this.lastLeft = 0;
-		this.lastTop = 0;
-		this.lastRight = 0;
-		this.lastBottom = 0;
-		this.lastWinWidth = 0;
-		this.lastWinHeight = 0;
-		this.updatePosition(true);
-		this.runtime.tickMe(this);
+		this.myProperty = this.properties[0];
 	};
-	instanceProto.saveToJSON = function ()
-	{
-		var o = {
-			"v": this.elem["value"],
-			"mi": this.elem["min"],
-			"ma": this.elem["max"],
-			"s": this.elem["step"]
-		};
-		return o;
-	};
-	instanceProto.loadFromJSON = function (o)
-	{
-		this.elem["min"] = o["mi"];
-		this.elem["max"] = o["ma"];
-		this.elem["step"] = o["s"];
-		this.elem["value"] = o["v"];
-	};
-	instanceProto.onDestroy = function ()
-	{
-		if (this.runtime.isDomFree)
-			return;
-		jQuery(this.elem).remove();
-		this.elem = null;
-	};
-	instanceProto.tick = function ()
-	{
-		this.updatePosition();
-	};
-	var last_canvas_offset = null;
-	var last_checked_tick = -1;
-	instanceProto.updatePosition = function (first)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		var left = this.layer.layerToCanvas(this.x, this.y, true);
-		var top = this.layer.layerToCanvas(this.x, this.y, false);
-		var right = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, true);
-		var bottom = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, false);
-		if (!this.visible || !this.layer.visible || right <= 0 || bottom <= 0 || left >= this.runtime.width || top >= this.runtime.height)
-		{
-			if (!this.element_hidden)
-				jQuery(this.elem).hide();
-			this.element_hidden = true;
-			return;
-		}
-		if (left < 1)
-			left = 1;
-		if (top < 1)
-			top = 1;
-		if (right >= this.runtime.width)
-			right = this.runtime.width - 1;
-		if (bottom >= this.runtime.height)
-			bottom = this.runtime.height - 1;
-		var curWinWidth = window.innerWidth;
-		var curWinHeight = window.innerHeight;
-		if (!first && this.lastLeft === left && this.lastTop === top && this.lastRight === right && this.lastBottom === bottom && this.lastWinWidth === curWinWidth && this.lastWinHeight === curWinHeight)
-		{
-			if (this.element_hidden)
-			{
-				jQuery(this.elem).show();
-				this.element_hidden = false;
-			}
-			return;
-		}
-		this.lastLeft = left;
-		this.lastTop = top;
-		this.lastRight = right;
-		this.lastBottom = bottom;
-		this.lastWinWidth = curWinWidth;
-		this.lastWinHeight = curWinHeight;
-		if (this.element_hidden)
-		{
-			jQuery(this.elem).show();
-			this.element_hidden = false;
-		}
-		var offx = Math.round(left) + jQuery(this.runtime.canvas).offset().left;
-		var offy = Math.round(top) + jQuery(this.runtime.canvas).offset().top;
-		jQuery(this.elem).css("position", "absolute");
-		jQuery(this.elem).offset({left: offx, top: offy});
-		jQuery(this.elem).width(Math.round(right - left));
-		jQuery(this.elem).height(Math.round(bottom - top));
-	};
-	instanceProto.draw = function(ctx)
+	behinstProto.onDestroy = function ()
 	{
 	};
-	instanceProto.drawGL = function(glw)
+	behinstProto.tick = function ()
 	{
+		var dt = this.runtime.getDt(this.inst);
 	};
 	function Cnds() {};
-	Cnds.prototype.OnClicked = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.OnChanged = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.CompareValue = function (cmp, x)
-	{
-		if (this.isDomFree)
-			return false;
-		return cr.do_cmp(this.elem["value"], cmp, x);
-	};
-	pluginProto.cnds = new Cnds();
+	behaviorProto.cnds = new Cnds();
 	function Acts() {};
-	Acts.prototype.SetTooltip = function (text)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.elem.title = text;
-	};
-	Acts.prototype.SetVisible = function (vis)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.visible = (vis !== 0);
-	};
-	Acts.prototype.SetCSSStyle = function (p, v)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		jQuery(this.elem).css(p, v);
-	};
-	Acts.prototype.SetValue = function (x)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.elem["value"] = x;
-	};
-	Acts.prototype.SetMaximum = function (x)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.elem["max"] = x;
-	};
-	Acts.prototype.SetMinimum = function (x)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.elem["min"] = x;
-	};
-	Acts.prototype.SetStep = function (x)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.elem["step"] = x;
-	};
-	Acts.prototype.SetEnabled = function (en)
-	{
-		if (this.runtime.isDomFree)
-			return;
-		this.elem.disabled = (en === 0);
-	};
-	pluginProto.acts = new Acts();
+	behaviorProto.acts = new Acts();
 	function Exps() {};
-	Exps.prototype.Value = function (ret)
-	{
-		ret.set_float(this.runtime.isDomFree ? 0 : (parseFloat(this.elem["value"]) || 0));
-	};
-	Exps.prototype.Maximum = function (ret)
-	{
-		ret.set_float(this.runtime.isDomFree ? 0 : (parseFloat(this.elem["max"]) || 0));
-	};
-	Exps.prototype.Minimum = function (ret)
-	{
-		ret.set_float(this.runtime.isDomFree ? 0 : (parseFloat(this.elem["min"]) || 0));
-	};
-	Exps.prototype.Step = function (ret)
-	{
-		ret.set_float(this.runtime.isDomFree ? 0 : (parseFloat(this.elem["step"]) || 0));
-	};
-	pluginProto.exps = new Exps();
+	behaviorProto.exps = new Exps();
 }());
 ;
 ;
@@ -20906,7 +21083,7 @@ cr.behaviors.Timer = function(runtime)
 }());
 cr.getProjectModel = function() { return [
 	null,
-	null,
+	"Loader",
 	[
 	[
 		cr.plugins_.Audio,
@@ -20966,18 +21143,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
-		false
-	]
-,	[
-		cr.plugins_.sliderbar,
-		false,
-		true,
-		true,
-		true,
-		false,
-		false,
-		false,
-		false,
 		false
 	]
 ,	[
@@ -21296,7 +21461,7 @@ cr.getProjectModel = function() { return [
 		cr.plugins_.Sprite,
 		false,
 		[],
-		1,
+		2,
 		0,
 		null,
 		[
@@ -21319,6 +21484,11 @@ cr.getProjectModel = function() { return [
 			"Timer",
 			cr.behaviors.Timer,
 			4563146051707726
+		]
+,		[
+			"Persist",
+			cr.behaviors.Persist,
+			7231897495500378
 		]
 		],
 		false,
@@ -22004,6 +22174,41 @@ cr.getProjectModel = function() { return [
 		cr.plugins_.Sprite,
 		false,
 		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			2565788199702384,
+			[
+				["images/sessioninfobackgroundbutton-sheet0.png", 1240, 1, 1, 876, 86, 1, 0, 0,[],[1,0,1,1,0,1,0,0],0]
+			]
+			]
+		],
+		[
+		[
+			"Pin",
+			cr.behaviors.Pin,
+			2479105988695929
+		]
+		],
+		false,
+		false,
+		307703565798621,
+		[],
+		null
+	]
+,	[
+		"t37",
+		cr.plugins_.Sprite,
+		false,
+		[],
 		0,
 		0,
 		null,
@@ -22030,7 +22235,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t37",
+		"t38",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22060,7 +22265,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t38",
+		"t39",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22090,7 +22295,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t39",
+		"t40",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22120,7 +22325,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t40",
+		"t41",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22150,7 +22355,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t41",
+		"t42",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22180,7 +22385,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t42",
+		"t43",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22197,7 +22402,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t43",
+		"t44",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22214,7 +22419,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t44",
+		"t45",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22227,23 +22432,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		3396565597889706,
-		[],
-		null
-	]
-,	[
-		"t45",
-		cr.plugins_.sliderbar,
-		false,
-		[],
-		0,
-		0,
-		null,
-		null,
-		[
-		],
-		false,
-		false,
-		4870124886157381,
 		[],
 		null
 	]
@@ -22309,6 +22497,166 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t48",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			5293542785390078,
+			[
+				["images/sliderbar-sheet0.png", 1231, 1, 1, 851, 15, 1, 0, 0,[],[0.002350176218897104,0.1333333402872086,0.4994124472141266,0,0.9976498484611511,0.1333333402872086,0.9976498484611511,0.8666666746139526,0.4994124472141266,1,0.002350176218897104,0.8666666746139526],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		2360799293533583,
+		[],
+		null
+	]
+,	[
+		"t49",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			3511610435666222,
+			[
+				["images/sliderthumb-sheet0.png", 445, 1, 1, 60, 61, 1, 0.5, 0.4918032884597778,[],[-0.3499999940395355,-0.3442623019218445,0,-0.4754098355770111,0.3500000238418579,-0.3442623019218445,0.5,0,0.3500000238418579,0.3606557250022888,0,0.5081967115402222,-0.3499999940395355,0.3606557250022888,-0.5,0],0]
+			]
+			]
+		],
+		[
+		[
+			"DragDrop",
+			cr.behaviors.DragnDrop,
+			3942098928106399
+		]
+		],
+		false,
+		false,
+		5896203581941834,
+		[],
+		null
+	]
+,	[
+		"t50",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			6968345390410026,
+			[
+				["images/sliderbarbg-sheet0.png", 1403, 1, 1, 851, 60, 1, 0, 0,[],[],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		7968112582547535,
+		[],
+		null
+	]
+,	[
+		"t51",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			3300718594900139,
+			[
+				["images/globaltimer-sheet0.png", 391, 1, 1, 250, 250, 1, 0.5, 0.5,[],[],0]
+			]
+			]
+		],
+		[
+		[
+			"Timer",
+			cr.behaviors.Timer,
+			526593734052728
+		]
+		],
+		true,
+		false,
+		4051963256382904,
+		[],
+		null
+	]
+,	[
+		"t52",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			3487578602045527,
+			[
+				["images/splash-sheet0.png", 9358, 1, 1, 720, 960, 1, 0, 0,[],[],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		true,
+		6803883895891063,
+		[],
+		null
+	]
+,	[
+		"t53",
 		cr.plugins_.Touch,
 		false,
 		[],
@@ -22326,7 +22674,7 @@ cr.getProjectModel = function() { return [
 		,[1]
 	]
 ,	[
-		"t49",
+		"t54",
 		cr.plugins_.Browser,
 		false,
 		[],
@@ -22344,7 +22692,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t50",
+		"t55",
 		cr.plugins_.Function,
 		false,
 		[],
@@ -22362,7 +22710,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t51",
+		"t56",
 		cr.plugins_.Audio,
 		false,
 		[],
@@ -22380,7 +22728,7 @@ cr.getProjectModel = function() { return [
 		,[0,0,0,1,1,600,600,10000,1,5000,1]
 	]
 ,	[
-		"t52",
+		"t57",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -22398,7 +22746,7 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[52,11,17,15,28,29,16,12,27,14,13]
+		[57,11,17,15,28,29,16,12,27,36,14,13]
 	],
 	[
 	[
@@ -22948,6 +23296,8 @@ cr.getProjectModel = function() { return [
 				],
 				[
 				[
+				],
+				[
 				]
 				],
 				[
@@ -23155,6 +23505,23 @@ cr.getProjectModel = function() { return [
 					1
 				]
 			]
+,			[
+				[98, -375, 0, 250, 250, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				51,
+				71,
+				[
+				],
+				[
+				[
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
 			],
 			[			]
 		]
@@ -23238,8 +23605,281 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Background2",
+			"BgOrnaments",
 			1,
+			3194577604114369,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[-288, 1286, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				73,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[949, 1341, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				74,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[440, 1560, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				75,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[947, 405, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				76,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-172, 629, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				77,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-805, 940, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				78,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1368, 964, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				79,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-517, 418, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				80,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[776, 1813, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				81,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1212, 956, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				82,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1220, 1415, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				83,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1960, 340, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				84,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2132, 1641, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				85,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1436, 442, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				86,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1140, 1439, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				87,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2350, 1221, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				88,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2420, 730, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				89,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"Background2",
+			2,
 			6396555006106551,
 			true,
 			[255, 255, 255],
@@ -23270,7 +23910,7 @@ cr.getProjectModel = function() { return [
 		]
 ,		[
 			"BackButton",
-			2,
+			3,
 			8573863548199143,
 			true,
 			[255, 255, 255],
@@ -23302,8 +23942,8 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Layer 0",
-			3,
+			"Buttons",
+			4,
 			7679612877244779,
 			true,
 			[255, 255, 255],
@@ -23483,6 +24123,23 @@ cr.getProjectModel = function() { return [
 					0
 				]
 			]
+,			[
+				[-934, 81, 0, 876, 86, 0, 0, 1, 0, 0, 0, 0, []],
+				36,
+				156,
+				[
+				],
+				[
+				[
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
 			],
 			[			]
 		]
@@ -23544,8 +24201,266 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Background2",
+			"BgOrnaments",
 			1,
+			2679280564801072,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[-390, 1185, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				90,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[855, 1248, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				91,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[418, 1307, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				92,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[821, 368, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				93,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-915, 1039, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				94,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1250, 743, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				95,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-635, 421, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				96,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[610, 1520, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				97,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[886, 679, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				98,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1102, 1194, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				99,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1842, 119, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				100,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1766, 1292, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				101,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1546, 757, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				102,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-994, 762, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				103,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2232, 1000, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				104,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2302, 509, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				105,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"Background2",
+			2,
 			7069493979013238,
 			true,
 			[255, 255, 255],
@@ -23576,7 +24491,7 @@ cr.getProjectModel = function() { return [
 		]
 ,		[
 			"BackButton",
-			2,
+			3,
 			7466787066307219,
 			true,
 			[255, 255, 255],
@@ -23608,8 +24523,8 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Layer 3",
-			3,
+			"Text",
+			4,
 			4011158720255759,
 			true,
 			[255, 255, 255],
@@ -23624,7 +24539,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[27, 451, 0, 946, 1097, 0, 0, 1, 0, 0, 0, 0, []],
-				36,
+				37,
 				59,
 				[
 				],
@@ -23639,7 +24554,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[286.5, 324, 0, 427, 84, 0, 0, 1, 0, 0, 0, 0, []],
-				37,
+				38,
 				60,
 				[
 				],
@@ -23793,7 +24708,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[238.5, 324, 0, 523, 84, 0, 0, 1, 0, 0, 0, 0, []],
-				38,
+				39,
 				61,
 				[
 				],
@@ -23808,7 +24723,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[28.5, 451, 0, 943, 1097, 0, 0, 1, 0, 0, 0, 0, []],
-				39,
+				40,
 				62,
 				[
 				],
@@ -23882,8 +24797,401 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Background2",
+			"BgOrnaments",
 			1,
+			2362489040693662,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[-600, 1704, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				106,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[440, 1561, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				107,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-76, 937, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				108,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[427, 931, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				109,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[580, 1480, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				110,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-862, 1533, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				111,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1293, 1859, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				112,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[329, 2619, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				113,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1142, 987, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				114,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[205, 2131, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				115,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[953, 939, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				116,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-975, 2367, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				117,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[697, 1203, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				118,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1514, 1795, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				119,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-91, 335, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				120,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1913, 1503, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				121,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1965, 663, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				122,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-3021, 1831, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				123,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-2805, 1175, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				124,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-3245, 1487, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				125,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2820, 1703, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				126,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1868, 479, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				127,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1821, 1655, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				128,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2644, 1239, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				129,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[3284, 1631, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				130,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"Background2",
+			2,
 			7249491265613637,
 			true,
 			[255, 255, 255],
@@ -23914,7 +25222,7 @@ cr.getProjectModel = function() { return [
 		]
 ,		[
 			"BackButton",
-			2,
+			3,
 			1484457799541092,
 			true,
 			[255, 255, 255],
@@ -23946,8 +25254,8 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Layer 0",
-			3,
+			"Main",
+			4,
 			5077267418112065,
 			true,
 			[255, 255, 255],
@@ -23961,22 +25269,18 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[73, 700, 0, 854, 119, 0, 0, 1, 0, 0, 0, 0, []],
-				45,
+				[73, 637, 0, 851, 240, 0, 0, 1, 0, 0, 0, 0, []],
+				50,
 				69,
 				[
 				],
 				[
 				],
 				[
+					1,
+					"Default",
 					0,
-					-70,
-					10,
-					1,
-					"",
-					1,
-					1,
-					""
+					1
 				]
 			]
 ,			[
@@ -24001,6 +25305,40 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[73, 750, 0, 851, 15, 0, 0, 1, 0, 0, 0, 0, []],
+				48,
+				158,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[73, 757, 0, 60, 61, 0, 0, 1, 0.5, 0.4918032884597778, 0, 0, []],
+				49,
+				159,
+				[
+				],
+				[
+				[
+					1,
+					0
+				]
 				],
 				[
 					0,
@@ -24070,8 +25408,401 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Background2",
+			"BgOrnaments",
 			1,
+			126126290348832,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[-74, 1684, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				131,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[966, 1541, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				132,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[250, 757, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				133,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[849, 775, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				134,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[194, 1500, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				135,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-336, 1513, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				136,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1819, 1839, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				137,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[855, 2599, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				138,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-616, 967, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				139,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[699, 2183, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				140,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1095, 759, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				141,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-449, 2347, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				142,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-625, 2823, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				143,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-988, 1775, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				144,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2035, 755, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				145,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[2087, 1323, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				146,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1439, 643, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				147,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-2495, 1811, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				6,
+				148,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-2279, 1155, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				149,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-2719, 1467, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				150,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[3346, 1683, 0, 431, 298, 0, 0, 1, 0, 0, 0, 0, []],
+				5,
+				151,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[3802, 1043, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				152,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[-1295, 1635, 0, 452, 451, 0, 0, 1, 0, 0, 0, 0, []],
+				4,
+				153,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[3170, 1219, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				7,
+				154,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[3810, 1611, 0, 43, 43, 0, 0, 1, 0, 0, 0, 0, []],
+				8,
+				155,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"Background2",
+			2,
 			5287277142952088,
 			true,
 			[255, 255, 255],
@@ -24102,7 +25833,7 @@ cr.getProjectModel = function() { return [
 		]
 ,		[
 			"BackButton",
-			2,
+			3,
 			5715338491925381,
 			true,
 			[255, 255, 255],
@@ -24134,8 +25865,8 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"Layer 2",
-			3,
+			"Main",
+			4,
 			3586006259852237,
 			true,
 			[255, 255, 255],
@@ -24150,7 +25881,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[151, 451, 0, 698, 103, 0, 0, 1, 0, 0, 0, 0, []],
-				40,
+				41,
 				63,
 				[
 				],
@@ -24165,7 +25896,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[202.5, 324, 0, 595, 84, 0, 0, 1, 0, 0, 0, 0, []],
-				41,
+				42,
 				64,
 				[
 				],
@@ -24180,7 +25911,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[147, 511, 0, 36, 52, 0, 0, 1, 0, 0, 0, 0, []],
-				42,
+				43,
 				65,
 				[
 				],
@@ -24200,7 +25931,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[224, 511, 0, 56, 52, 0, 0, 1, 0, 0, 0, 0, []],
-				43,
+				44,
 				66,
 				[
 				],
@@ -24220,7 +25951,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[372, 511, 0, 58, 52, 0, 0, 1, 0, 0, 0, 0, []],
-				44,
+				45,
 				67,
 				[
 				],
@@ -24236,6 +25967,52 @@ cr.getProjectModel = function() { return [
 					0,
 					0,
 					0
+				]
+			]
+			],
+			[			]
+		]
+		],
+		[
+		],
+		[]
+	]
+,	[
+		"Loader",
+		1000,
+		1600,
+		true,
+		"LoaderEvents",
+		3824415839788889,
+		[
+		[
+			"Layer 0",
+			0,
+			4287270021724272,
+			true,
+			[255, 255, 255],
+			false,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[140, 320, 0, 720, 960, 0, 0, 1, 0, 0, 0, 0, []],
+				52,
+				157,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
 				]
 			]
 			],
@@ -24444,7 +26221,7 @@ false,false,9566075539094071,false
 			7355763361083501,
 			[
 			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -24517,7 +26294,7 @@ false,false,9566075539094071,false
 				]
 			]
 ,			[
-				51,
+				56,
 				cr.plugins_.Audio.prototype.acts.Play,
 				null,
 				1212220181415029,
@@ -24653,10 +26430,10 @@ false,false,9566075539094071,false
 				],
 				[
 				[
-					10,
+					51,
 					cr.behaviors.Timer.prototype.acts.StartTimer,
 					"Timer",
-					99583243370628,
+					3117896884907844,
 					false
 					,[
 					[
@@ -24719,32 +26496,6 @@ false,false,9566075539094071,false
 					]
 					]
 				]
-,				[
-					18,
-					cr.plugins_.Sprite.prototype.acts.SetVisible,
-					null,
-					4463322846796593,
-					false
-					,[
-					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					19,
-					cr.plugins_.Text.prototype.acts.SetVisible,
-					null,
-					5623956990442576,
-					false
-					,[
-					[
-						3,
-						1
-					]
-					]
-				]
 				]
 			]
 			]
@@ -24757,7 +26508,7 @@ false,false,9566075539094071,false
 			933955609085284,
 			[
 			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -24776,10 +26527,10 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				10,
+				51,
 				cr.behaviors.Timer.prototype.acts.StopTimer,
 				"Timer",
-				6668425239018275,
+				1685478585305638,
 				false
 				,[
 				[
@@ -24808,32 +26559,6 @@ false,false,9566075539094071,false
 						0,
 						0
 					]
-				]
-				]
-			]
-,			[
-				18,
-				cr.plugins_.Sprite.prototype.acts.SetVisible,
-				null,
-				6703977226135863,
-				false
-				,[
-				[
-					3,
-					1
-				]
-				]
-			]
-,			[
-				19,
-				cr.plugins_.Text.prototype.acts.SetVisible,
-				null,
-				8607984280510403,
-				false
-				,[
-				[
-					3,
-					0
 				]
 				]
 			]
@@ -24893,10 +26618,10 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
-				8514837200286849,
+				1685353135731845,
 				false
 				,[
 				[
@@ -24916,7 +26641,7 @@ false,false,9566075539094071,false
 								,[
 [
 									22,
-									10,
+									51,
 									"Timer",
 									cr.behaviors.Timer.prototype.exps.CurrentTime,
 									false,
@@ -24945,7 +26670,7 @@ false,false,9566075539094071,false
 					7,
 					[
 						20,
-						50,
+						55,
 						cr.plugins_.Function.prototype.exps.ReturnValue,
 						false,
 						null
@@ -24969,6 +26694,97 @@ false,false,9566075539094071,false
 				]
 				]
 			]
+,			[
+				18,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				1844361571067695,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
+,			[
+				19,
+				cr.plugins_.Text.prototype.acts.SetVisible,
+				null,
+				5554605636153218,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			9013988839969593,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.CompareVar,
+				null,
+				0,
+				false,
+				false,
+				false,
+				8669981746060441,
+				false
+				,[
+				[
+					11,
+					"IsCountStarted"
+				]
+,				[
+					8,
+					0
+				]
+,				[
+					7,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				18,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				6789980523246459,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				19,
+				cr.plugins_.Text.prototype.acts.SetVisible,
+				null,
+				8618051370781967,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -24979,7 +26795,7 @@ false,false,9566075539094071,false
 			6620769041721616,
 			[
 			[
-				10,
+				51,
 				cr.behaviors.Timer.prototype.cnds.OnTimer,
 				"Timer",
 				0,
@@ -25031,7 +26847,7 @@ false,false,9566075539094071,false
 					1,
 					[
 						20,
-						49,
+						54,
 						cr.plugins_.Browser.prototype.exps.ExecJS,
 						false,
 						null
@@ -25165,7 +26981,7 @@ false,false,9566075539094071,false
 					1,
 					[
 						20,
-						49,
+						54,
 						cr.plugins_.Browser.prototype.exps.ExecJS,
 						false,
 						null
@@ -25280,7 +27096,7 @@ false,false,9566075539094071,false
 				945558670486038,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25324,7 +27140,7 @@ false,false,9566075539094071,false
 				308288725394869,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25401,7 +27217,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25445,7 +27261,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25522,7 +27338,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 					null,
 					1,
@@ -25796,7 +27612,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25840,7 +27656,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25884,7 +27700,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -25895,7 +27711,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25969,7 +27785,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26013,7 +27829,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26057,7 +27873,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -26068,7 +27884,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26142,7 +27958,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26186,7 +28002,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26230,7 +28046,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -26241,7 +28057,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26315,7 +28131,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26359,7 +28175,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26403,7 +28219,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -26414,7 +28230,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -26457,7 +28273,7 @@ false,false,9566075539094071,false
 			9010482394305126,
 			[
 			[
-				49,
+				54,
 				cr.plugins_.Browser.prototype.cnds.OnBackButton,
 				null,
 				1,
@@ -26470,7 +28286,7 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				49,
+				54,
 				cr.plugins_.Browser.prototype.acts.Close,
 				null,
 				2937868312981591,
@@ -26519,7 +28335,7 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				7607019210521297,
@@ -26561,7 +28377,7 @@ false,false,9566075539094071,false
 			5349697758841566,
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.cnds.OnFunction,
 				null,
 				2,
@@ -26635,6 +28451,50 @@ false,false,7442625126502046,false
 					4810497956439288,
 					false
 				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.Compare,
+					null,
+					0,
+					false,
+					false,
+					false,
+					4088144233325147,
+					false
+					,[
+					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.left
+							,[
+[
+								20,
+								24,
+								cr.plugins_.Dictionary.prototype.exps.CurrentKey,
+								true,
+								null
+							]
+,[
+								0,
+								6
+							]
+							]
+						]
+					]
+,					[
+						8,
+						1
+					]
+,					[
+						7,
+						[
+							2,
+							"system"
+						]
+					]
+					]
+				]
 				],
 				[
 				[
@@ -26686,7 +28546,7 @@ false,false,7442625126502046,false
 					]
 				]
 ,				[
-					50,
+					55,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					6559149181470225,
@@ -26860,7 +28720,7 @@ false,false,7442625126502046,false
 						7,
 						[
 							20,
-							50,
+							55,
 							cr.plugins_.Function.prototype.exps.ReturnValue,
 							false,
 							null
@@ -26889,6 +28749,23 @@ false,false,7442625126502046,false
 					cr.behaviors.Pin.prototype.acts.Pin,
 					"Pin",
 					982220443483164,
+					false
+					,[
+					[
+						4,
+						34
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					36,
+					cr.behaviors.Pin.prototype.acts.Pin,
+					"Pin",
+					9530388850841951,
 					false
 					,[
 					[
@@ -26963,7 +28840,7 @@ false,false,7442625126502046,false
 			2480777574599118,
 			[
 			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 				null,
 				1,
@@ -26982,7 +28859,7 @@ false,false,7442625126502046,false
 			],
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				1094909807257481,
@@ -27010,7 +28887,7 @@ false,false,7442625126502046,false
 			7318383871191552,
 			[
 			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 				null,
 				1,
@@ -27027,7 +28904,7 @@ false,false,7442625126502046,false
 				]
 			]
 ,			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 				null,
 				1,
@@ -27044,7 +28921,7 @@ false,false,7442625126502046,false
 				]
 			]
 ,			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 				null,
 				1,
@@ -27265,7 +29142,7 @@ false,false,7442625126502046,false
 			8755115403489652,
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.cnds.OnFunction,
 				null,
 				2,
@@ -27339,7 +29216,7 @@ false,false,7442625126502046,false
 				],
 				[
 				[
-					50,
+					55,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					6774523674593877,
@@ -27400,7 +29277,7 @@ false,false,7442625126502046,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27444,7 +29321,7 @@ false,false,7442625126502046,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27488,7 +29365,7 @@ false,false,7442625126502046,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -27499,7 +29376,7 @@ false,false,7442625126502046,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27525,7 +29402,7 @@ false,false,7442625126502046,false
 					false
 				]
 ,				[
-					50,
+					55,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					3652290784325334,
@@ -27586,7 +29463,7 @@ false,false,7442625126502046,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27630,7 +29507,7 @@ false,false,7442625126502046,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27674,7 +29551,7 @@ false,false,7442625126502046,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -27685,7 +29562,7 @@ false,false,7442625126502046,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27704,7 +29581,7 @@ false,false,7442625126502046,false
 				],
 				[
 				[
-					50,
+					55,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					3652290784325334,
@@ -27800,7 +29677,7 @@ false,false,9437714858162737,false
 				5367973436248222,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27922,7 +29799,7 @@ false,false,9437714858162737,false
 							7,
 							[
 								20,
-								48,
+								53,
 								cr.plugins_.Touch.prototype.exps.Y,
 								false,
 								null
@@ -27983,7 +29860,7 @@ false,false,9437714858162737,false
 									5,
 									[
 										20,
-										48,
+										53,
 										cr.plugins_.Touch.prototype.exps.Y,
 										false,
 										null
@@ -28043,7 +29920,7 @@ false,false,9437714858162737,false
 							7,
 							[
 								20,
-								48,
+								53,
 								cr.plugins_.Touch.prototype.exps.Y,
 								false,
 								null
@@ -28061,7 +29938,7 @@ false,false,9437714858162737,false
 					2000529319616462,
 					[
 					[
-						48,
+						53,
 						cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 						null,
 						1,
@@ -28108,7 +29985,7 @@ false,false,9437714858162737,false
 							7,
 							[
 								20,
-								48,
+								53,
 								cr.plugins_.Touch.prototype.exps.Y,
 								false,
 								null
@@ -29043,193 +30920,167 @@ false,false,9437714858162737,false
 			],
 			[
 			[
-				45,
-				cr.plugins_.sliderbar.prototype.acts.SetCSSStyle,
+				49,
+				cr.plugins_.Sprite.prototype.acts.Destroy,
 				null,
-				9489799610546259,
+				2989366956012912,
 				false
-				,[
-				[
-					1,
-					[
-						2,
-						"-webkit-appearance"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"none"
-					]
-				]
-				]
 			]
 ,			[
-				45,
-				cr.plugins_.sliderbar.prototype.acts.SetCSSStyle,
+				48,
+				cr.plugins_.Sprite.prototype.acts.Destroy,
 				null,
-				9776919066085502,
+				1660545028398371,
 				false
-				,[
-				[
-					1,
-					[
-						2,
-						"border-radius"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"5px"
-					]
-				]
-				]
 			]
 ,			[
-				45,
-				cr.plugins_.sliderbar.prototype.acts.SetCSSStyle,
+				50,
+				cr.plugins_.Sprite.prototype.acts.Destroy,
 				null,
-				3053119663409903,
+				2594004357542063,
 				false
-				,[
-				[
-					1,
-					[
-						2,
-						"background-color"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"#bd0078"
-					]
-				]
-				]
 			]
 ,			[
-				45,
-				cr.plugins_.sliderbar.prototype.acts.SetCSSStyle,
-				null,
-				8575392192766839,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"height"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"10px"
-					]
-				]
-				]
-			]
-,			[
-				45,
-				cr.plugins_.sliderbar.prototype.acts.SetCSSStyle,
-				null,
-				2604922592001521,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"vertical-align"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"middle"
-					]
-				]
-				]
-			]
-,			[
-				45,
-				cr.plugins_.sliderbar.prototype.acts.SetValue,
-				null,
-				3558146196978965,
-				false
-				,[
-				[
-					0,
-					[
-						23,
-						"Volume"
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			4795109082313764,
-			[
-			[
-				45,
-				cr.plugins_.sliderbar.prototype.cnds.CompareValue,
-				null,
-				0,
-				false,
-				false,
-				false,
-				8411144591706471,
-				false
-				,[
-				[
-					8,
-					0
-				]
-,				[
-					0,
-					[
-						20,
-						45,
-						cr.plugins_.sliderbar.prototype.exps.Minimum,
-						false,
-						null
-					]
-				]
-				]
-			]
-			],
-			[
-			[
 				-1,
-				cr.system_object.prototype.acts.SetVar,
+				cr.system_object.prototype.acts.CreateObject,
 				null,
-				6255088629283109,
+				1710317871149729,
 				false
 				,[
 				[
-					11,
-					"Muted"
+					4,
+					50
 				]
 ,				[
-					7,
+					5,
 					[
 						0,
-						1
+						4
+					]
+				]
+,				[
+					0,
+					[
+						0,
+						-10500
+					]
+				]
+,				[
+					0,
+					[
+						0,
+						637
 					]
 				]
 				]
+			]
+,			[
+				50,
+				cr.plugins_.Sprite.prototype.acts.SetWidth,
+				null,
+				1564448771989219,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						20000
+					]
+				]
+				]
+			]
+,			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				5613684983925443,
+				false
+				,[
+				[
+					0,
+					[
+						4,
+						[
+							6,
+							[
+								4,
+								[
+									23,
+									"Volume"
+								]
+								,[
+									0,
+									65
+								]
+							]
+							,[
+								0,
+								10
+							]
+						]
+						,[
+							0,
+							73
+						]
+					]
+				]
+				]
+			]
+,			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.SetY,
+				null,
+				1097211295875839,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						757
+					]
+				]
+				]
+			]
+,			[
+				48,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				3395203798094658,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						73
+					]
+				]
+				]
+			]
+,			[
+				48,
+				cr.plugins_.Sprite.prototype.acts.SetY,
+				null,
+				7001955714840918,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						750
+					]
+				]
+				]
+			]
+,			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.MoveToTop,
+				null,
+				6019743378023342,
+				false
 			]
 			]
 		]
@@ -29240,33 +31091,6 @@ false,false,9437714858162737,false
 			null,
 			8322374628576181,
 			[
-			[
-				45,
-				cr.plugins_.sliderbar.prototype.cnds.CompareValue,
-				null,
-				0,
-				false,
-				true,
-				false,
-				4142077974789479,
-				false
-				,[
-				[
-					8,
-					0
-				]
-,				[
-					0,
-					[
-						20,
-						45,
-						cr.plugins_.sliderbar.prototype.exps.Minimum,
-						false,
-						null
-					]
-				]
-				]
-			]
 			],
 			[
 			[
@@ -29296,17 +31120,241 @@ false,false,9437714858162737,false
 			null,
 			false,
 			null,
-			3627141112552807,
+			3220800568793862,
 			[
 			[
-				45,
-				cr.plugins_.sliderbar.prototype.cnds.OnChanged,
+				53,
+				cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+				null,
+				0,
+				false,
+				false,
+				false,
+				4370179916055014,
+				false
+				,[
+				[
+					4,
+					50
+				]
+				]
+			]
+			],
+			[
+			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				7656041294406681,
+				false
+				,[
+				[
+					0,
+					[
+						20,
+						53,
+						cr.plugins_.Touch.prototype.exps.X,
+						false,
+						null
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			6557190144589938,
+			[
+			[
+				49,
+				cr.plugins_.Sprite.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				false,
+				false,
+				9820414067384378,
+				false
+				,[
+				[
+					8,
+					3
+				]
+,				[
+					0,
+					[
+						0,
+						73
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				3234803322862655,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						73
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				6255088629283109,
+				false
+				,[
+				[
+					11,
+					"Muted"
+				]
+,				[
+					7,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			764880566693408,
+			[
+			[
+				49,
+				cr.plugins_.Sprite.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				true,
+				false,
+				8303065261885013,
+				false
+				,[
+				[
+					8,
+					3
+				]
+,				[
+					0,
+					[
+						0,
+						73
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				4648187884916255,
+				false
+				,[
+				[
+					11,
+					"Muted"
+				]
+,				[
+					7,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			4917542603840871,
+			[
+			[
+				49,
+				cr.plugins_.Sprite.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				false,
+				false,
+				3597224860205339,
+				false
+				,[
+				[
+					8,
+					5
+				]
+,				[
+					0,
+					[
+						0,
+						924
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				5941869058094344,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						924
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			7938988908634262,
+			[
+			[
+				53,
+				cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 				null,
 				1,
 				false,
 				false,
 				false,
-				5863383978463793,
+				5510624317006797,
 				false
 			]
 			],
@@ -29315,7 +31363,7 @@ false,false,9437714858162737,false
 				-1,
 				cr.system_object.prototype.acts.SetVar,
 				null,
-				6050582492923742,
+				9426891139418947,
 				false
 				,[
 				[
@@ -29325,20 +31373,41 @@ false,false,9437714858162737,false
 ,				[
 					7,
 					[
-						20,
-						45,
-						cr.plugins_.sliderbar.prototype.exps.Value,
-						false,
-						null
+						5,
+						[
+							7,
+							[
+								5,
+								[
+									20,
+									49,
+									cr.plugins_.Sprite.prototype.exps.X,
+									false,
+									null
+								]
+								,[
+									0,
+									73
+								]
+							]
+							,[
+								0,
+								10
+							]
+						]
+						,[
+							0,
+							65
+						]
 					]
 				]
 				]
 			]
 ,			[
-				51,
+				56,
 				cr.plugins_.Audio.prototype.acts.Play,
 				null,
-				2055926677020975,
+				1950627965362624,
 				false
 				,[
 				[
@@ -29361,6 +31430,45 @@ false,false,9437714858162737,false
 					[
 						2,
 						""
+					]
+				]
+				]
+			]
+,			[
+				23,
+				cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
+				null,
+				4747276585566197,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"system.volume"
+					]
+				]
+				]
+			]
+,			[
+				23,
+				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+				null,
+				9545146708251706,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"system.volume"
+					]
+				]
+,				[
+					7,
+					[
+						23,
+						"Volume"
 					]
 				]
 				]
@@ -29411,7 +31519,7 @@ false,false,9437714858162737,false
 				3635047565575739,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -29455,7 +31563,7 @@ false,false,9437714858162737,false
 				5956237381081633,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -29499,7 +31607,7 @@ false,false,9437714858162737,false
 				6220928463927363,
 				[
 				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -29510,7 +31618,7 @@ false,false,9437714858162737,false
 					false
 				]
 ,				[
-					48,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -29553,7 +31661,7 @@ false,false,9437714858162737,false
 			2904722849096663,
 			[
 			[
-				49,
+				54,
 				cr.plugins_.Browser.prototype.cnds.OnBackButton,
 				null,
 				1,
@@ -29604,10 +31712,61 @@ false,false,927888288248287,false
 			null,
 			false,
 			null,
+			6498248256654011,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.OnLayoutStart,
+				null,
+				1,
+				false,
+				false,
+				false,
+				2415547658456038,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				4775418423183028,
+				false
+				,[
+				[
+					11,
+					"Volume"
+				]
+,				[
+					7,
+					[
+						20,
+						23,
+						cr.plugins_.WebStorage.prototype.exps.LocalValue,
+						true,
+						null
+						,[
+[
+							2,
+							"system.volume"
+						]
+						]
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			1973648341878865,
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.cnds.OnFunction,
 				null,
 				2,
@@ -29629,7 +31788,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				50,
+				55,
 				cr.plugins_.Function.prototype.acts.SetReturnValue,
 				null,
 				4930765189448741,
@@ -29665,7 +31824,7 @@ false,false,927888288248287,false
 															7,
 															[
 																20,
-																50,
+																55,
 																cr.plugins_.Function.prototype.exps.Param,
 																false,
 																null
@@ -29720,7 +31879,7 @@ false,false,927888288248287,false
 														7,
 														[
 															20,
-															50,
+															55,
 															cr.plugins_.Function.prototype.exps.Param,
 															false,
 															null
@@ -29768,7 +31927,7 @@ false,false,927888288248287,false
 															7,
 															[
 																20,
-																50,
+																55,
 																cr.plugins_.Function.prototype.exps.Param,
 																false,
 																null
@@ -29804,7 +31963,7 @@ false,false,927888288248287,false
 													7,
 													[
 														20,
-														50,
+														55,
 														cr.plugins_.Function.prototype.exps.Param,
 														false,
 														null
@@ -29852,7 +32011,7 @@ false,false,927888288248287,false
 											8,
 											[
 												20,
-												50,
+												55,
 												cr.plugins_.Function.prototype.exps.Param,
 												false,
 												null
@@ -29893,7 +32052,7 @@ false,false,927888288248287,false
 												8,
 												[
 													20,
-													50,
+													55,
 													cr.plugins_.Function.prototype.exps.Param,
 													false,
 													null
@@ -29922,7 +32081,7 @@ false,false,927888288248287,false
 										8,
 										[
 											20,
-											50,
+											55,
 											cr.plugins_.Function.prototype.exps.Param,
 											false,
 											null
@@ -29957,7 +32116,7 @@ false,false,927888288248287,false
 			8147033323036818,
 			[
 			[
-				48,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 				null,
 				1,
@@ -29969,14 +32128,14 @@ false,false,927888288248287,false
 				,[
 				[
 					4,
-					52
+					57
 				]
 				]
 			]
 			],
 			[
 			[
-				51,
+				56,
 				cr.plugins_.Audio.prototype.acts.Play,
 				null,
 				4312638854175608,
@@ -30018,7 +32177,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				51,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetMasterVolume,
 				null,
 				5805099141174639,
@@ -30073,7 +32232,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				51,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetSilent,
 				null,
 				3575674432050152,
@@ -30125,7 +32284,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				51,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetSilent,
 				null,
 				4451916300644091,
@@ -30180,7 +32339,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				42,
+				43,
 				cr.plugins_.Text.prototype.acts.SetText,
 				null,
 				325564190260173,
@@ -30229,7 +32388,7 @@ false,false,927888288248287,false
 				]
 			]
 ,			[
-				43,
+				44,
 				cr.plugins_.Text.prototype.acts.SetText,
 				null,
 				8290771759651464,
@@ -30342,7 +32501,7 @@ false,false,927888288248287,false
 				]
 			]
 ,			[
-				44,
+				45,
 				cr.plugins_.Text.prototype.acts.SetText,
 				null,
 				9572197291598891,
@@ -30437,6 +32596,62 @@ false,false,927888288248287,false
 		]
 		]
 	]
+,	[
+		"LoaderEvents",
+		[
+		[
+			0,
+			null,
+			false,
+			null,
+			3996208640607637,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.OnLayoutStart,
+				null,
+				1,
+				false,
+				false,
+				false,
+				3093768213177176,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				2556726854806172,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						2
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				4200157153669233,
+				false
+				,[
+				[
+					6,
+					"MainScreen"
+				]
+				]
+			]
+			]
+		]
+		]
+	]
 	],
 	[
 		["click.m4a", 9228],
@@ -30454,16 +32669,17 @@ false,false,927888288248287,false
 	true,
 	"1.0.0.0",
 	true,
-	false,
+	true,
 	0,
 	1,
-	73,
+	160,
 	false,
 	true,
 	2,
 	true,
 	"KickCounter",
 	[
-		[26,27,35]
+		[26,27,35,36]
+,		[49,50,48]
 	]
 ];};
