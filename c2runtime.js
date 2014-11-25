@@ -26237,8 +26237,8 @@ false,false,9566075539094071,false
 ,				[
 					0,
 					[
-						0,
-						0
+						23,
+						"Volume"
 					]
 				]
 ,				[
@@ -31424,41 +31424,6 @@ false,false,9437714858162737,false
 			]
 			]
 		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			6129266634852515,
-			[
-			[
-				-1,
-				cr.system_object.prototype.cnds.EveryTick,
-				null,
-				0,
-				false,
-				false,
-				false,
-				400092346911631,
-				false
-			]
-			],
-			[
-			[
-				47,
-				cr.plugins_.Sprite.prototype.acts.SetVisible,
-				null,
-				8717845588950653,
-				false
-				,[
-				[
-					3,
-					1
-				]
-				]
-			]
-			]
-		]
 		]
 	]
 ,	[
@@ -32145,6 +32110,79 @@ false,false,927888288248287,false
 					[
 						2,
 						"Click"
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			9532431001184951,
+			[
+			],
+			[
+			[
+				54,
+				cr.plugins_.Audio.prototype.acts.SetMasterVolume,
+				null,
+				5805099141174639,
+				false
+				,[
+				[
+					0,
+					[
+						23,
+						"Volume"
+					]
+				]
+				]
+			]
+,			[
+				54,
+				cr.plugins_.Audio.prototype.acts.SetVolume,
+				null,
+				6083885551064867,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Click"
+					]
+				]
+,				[
+					0,
+					[
+						23,
+						"Volume"
+					]
+				]
+				]
+			]
+,			[
+				54,
+				cr.plugins_.Audio.prototype.acts.SetVolume,
+				null,
+				8303350436733635,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Wand"
+					]
+				]
+,				[
+					0,
+					[
+						23,
+						"Volume"
 					]
 				]
 				]
