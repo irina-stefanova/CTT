@@ -22561,6 +22561,67 @@ cr.getProjectModel = function() { return [
 		cr.plugins_.Sprite,
 		false,
 		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			3504318743915475,
+			[
+				["images/sessionbutton-sheet0.png", 576, 1, 1, 86, 86, 1, 0, 0,[],[0.151162788271904,0.151162788271904,0.5,0.01162790693342686,0.8488371968269348,0.151162788271904,1,0.5,0.8488371968269348,0.8488371968269348,0.5,1,0.151162788271904,0.8488371968269348,0,0.5],0],
+				["images/sessionbutton-sheet1.png", 874, 1, 1, 86, 86, 1, 0, 0,[],[0.151162788271904,0.151162788271904,0.5,0.01162790693342686,0.8488371968269348,0.151162788271904,1,0.5,0.8488371968269348,0.8488371968269348,0.5,1,0.151162788271904,0.8488371968269348,0,0.5],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		4123598454263796,
+		[],
+		null
+	]
+,	[
+		"t50",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			8051103819263155,
+			[
+				["images/mutelabel-sheet0.png", 1322, 1, 1, 216, 62, 1, 0, 0,[],[0.0555555559694767,0.1935483813285828,0.9074074029922485,0.3225806355476379,0.9490740895271301,0.5,0.9074074029922485,0.6774193644523621,0.0555555559694767,0.8064516186714172,0.02314814738929272,0.5],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		5073215358148458,
+		[],
+		null
+	]
+,	[
+		"t51",
+		cr.plugins_.Sprite,
+		false,
+		[],
 		1,
 		0,
 		null,
@@ -22592,7 +22653,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t50",
+		"t52",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22622,7 +22683,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t51",
+		"t53",
 		cr.plugins_.Touch,
 		false,
 		[],
@@ -22640,7 +22701,7 @@ cr.getProjectModel = function() { return [
 		,[1]
 	]
 ,	[
-		"t52",
+		"t54",
 		cr.plugins_.Browser,
 		false,
 		[],
@@ -22658,7 +22719,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t53",
+		"t55",
 		cr.plugins_.Function,
 		false,
 		[],
@@ -22676,7 +22737,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t54",
+		"t56",
 		cr.plugins_.Audio,
 		false,
 		[],
@@ -22694,7 +22755,7 @@ cr.getProjectModel = function() { return [
 		,[0,0,0,1,1,600,600,10000,1,5000,1]
 	]
 ,	[
-		"t55",
+		"t57",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -22712,7 +22773,7 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[55,12,18,16,29,30,17,13,28,37,15,14]
+		[57,12,18,16,29,30,17,13,28,37,15,14]
 	],
 	[
 	[
@@ -23488,7 +23549,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[98, -375, 0, 250, 250, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				49,
+				51,
 				71,
 				[
 				],
@@ -24823,7 +24884,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[-76, 937, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
+				[-78, 1009, 0, 587, 715, 0, 0, 1, 0, 0, 0, 0, []],
 				6,
 				108,
 				[
@@ -24838,7 +24899,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[427, 931, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
+				[879, 529, 0, 61, 61, 0, 0, 1, 0, 0, 0, 0, []],
 				7,
 				109,
 				[
@@ -25320,6 +25381,36 @@ cr.getProjectModel = function() { return [
 					1,
 					0
 				]
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[320, 932, 0, 86, 86, 0, 0, 1, 0, 0, 0, 0, []],
+				49,
+				65,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[444, 937, 0, 216, 62, 0, 0, 1, 0, 0, 0, 0, []],
+				50,
+				67,
+				[
+				],
+				[
 				],
 				[
 					0,
@@ -25928,7 +26019,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[140, 320, 0, 720, 960, 0, 0, 1, 0, 0, 0, 0, []],
-				50,
+				52,
 				157,
 				[
 				],
@@ -26147,7 +26238,7 @@ false,false,9566075539094071,false
 			7355763361083501,
 			[
 			[
-				51,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -26220,7 +26311,7 @@ false,false,9566075539094071,false
 				]
 			]
 ,			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.Play,
 				null,
 				1212220181415029,
@@ -26356,7 +26447,7 @@ false,false,9566075539094071,false
 				],
 				[
 				[
-					49,
+					51,
 					cr.behaviors.Timer.prototype.acts.StartTimer,
 					"Timer",
 					3117896884907844,
@@ -26434,7 +26525,7 @@ false,false,9566075539094071,false
 			933955609085284,
 			[
 			[
-				51,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -26453,7 +26544,7 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				49,
+				51,
 				cr.behaviors.Timer.prototype.acts.StopTimer,
 				"Timer",
 				1685478585305638,
@@ -26544,7 +26635,7 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				53,
+				55,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				1685353135731845,
@@ -26567,7 +26658,7 @@ false,false,9566075539094071,false
 								,[
 [
 									22,
-									49,
+									51,
 									"Timer",
 									cr.behaviors.Timer.prototype.exps.CurrentTime,
 									false,
@@ -26596,7 +26687,7 @@ false,false,9566075539094071,false
 					7,
 					[
 						20,
-						53,
+						55,
 						cr.plugins_.Function.prototype.exps.ReturnValue,
 						false,
 						null
@@ -26721,7 +26812,7 @@ false,false,9566075539094071,false
 			6620769041721616,
 			[
 			[
-				49,
+				51,
 				cr.behaviors.Timer.prototype.cnds.OnTimer,
 				"Timer",
 				0,
@@ -26773,7 +26864,7 @@ false,false,9566075539094071,false
 					1,
 					[
 						20,
-						52,
+						54,
 						cr.plugins_.Browser.prototype.exps.ExecJS,
 						false,
 						null
@@ -26789,7 +26880,7 @@ false,false,9566075539094071,false
 					7,
 					[
 						22,
-						49,
+						51,
 						"Timer",
 						cr.behaviors.Timer.prototype.exps.CurrentTime,
 						false,
@@ -26907,7 +26998,7 @@ false,false,9566075539094071,false
 					1,
 					[
 						20,
-						52,
+						54,
 						cr.plugins_.Browser.prototype.exps.ExecJS,
 						false,
 						null
@@ -26923,7 +27014,7 @@ false,false,9566075539094071,false
 					7,
 					[
 						22,
-						49,
+						51,
 						"Timer",
 						cr.behaviors.Timer.prototype.exps.CurrentTime,
 						false,
@@ -26953,7 +27044,7 @@ false,false,9566075539094071,false
 					7,
 					[
 						22,
-						49,
+						51,
 						"Timer",
 						cr.behaviors.Timer.prototype.exps.CurrentTime,
 						false,
@@ -27022,7 +27113,7 @@ false,false,9566075539094071,false
 				945558670486038,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27066,7 +27157,7 @@ false,false,9566075539094071,false
 				308288725394869,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27143,7 +27234,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27187,7 +27278,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27264,7 +27355,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 					null,
 					1,
@@ -27538,7 +27629,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27582,7 +27673,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27626,7 +27717,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -27637,7 +27728,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27711,7 +27802,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27755,7 +27846,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27799,7 +27890,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -27810,7 +27901,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27884,7 +27975,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27928,7 +28019,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -27972,7 +28063,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -27983,7 +28074,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -28057,7 +28148,7 @@ false,false,9566075539094071,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -28101,7 +28192,7 @@ false,false,9566075539094071,false
 				5956237381081633,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -28145,7 +28236,7 @@ false,false,9566075539094071,false
 				6220928463927363,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -28156,7 +28247,7 @@ false,false,9566075539094071,false
 					false
 				]
 ,				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -28199,7 +28290,7 @@ false,false,9566075539094071,false
 			9010482394305126,
 			[
 			[
-				52,
+				54,
 				cr.plugins_.Browser.prototype.cnds.OnBackButton,
 				null,
 				1,
@@ -28212,7 +28303,7 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				52,
+				54,
 				cr.plugins_.Browser.prototype.acts.Close,
 				null,
 				2937868312981591,
@@ -28261,7 +28352,7 @@ false,false,9566075539094071,false
 			],
 			[
 			[
-				53,
+				55,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				7607019210521297,
@@ -28297,20 +28388,20 @@ false,false,9566075539094071,false
 		]
 ,		[
 			0,
-			null,
+			[true, "ShowSessions"],
 			false,
 			null,
-			5349697758841566,
+			5395626526965741,
 			[
 			[
-				53,
-				cr.plugins_.Function.prototype.cnds.OnFunction,
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
 				null,
-				2,
+				0,
 				false,
 				false,
 				false,
-				5692367726812886,
+				5395626526965741,
 				false
 				,[
 				[
@@ -28324,99 +28415,31 @@ false,false,9566075539094071,false
 			]
 			],
 			[
-			[
-				25,
-				cr.plugins_.Dictionary.prototype.acts.JSONLoad,
-				null,
-				2458951589931217,
-				false
-				,[
-				[
-					1,
-					[
-						20,
-						24,
-						cr.plugins_.WebStorage.prototype.exps.AsJSON,
-						true,
-						null
-					]
-				]
-				]
-			]
-,			[
-				27,
-				cr.plugins_.Text.prototype.acts.Destroy,
-				null,
-				6666605917706443,
-				false
-			]
 			]
 			,[
 			[
-				1,
-				"i",
-				0,
-				0,
-false,false,7442625126502046,false
-			]
-,			[
 				0,
 				null,
 				false,
 				null,
-				2107298083544855,
+				5349697758841566,
 				[
 				[
-					25,
-					cr.plugins_.Dictionary.prototype.cnds.ForEachKey,
+					55,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
-					0,
-					true,
-					false,
-					false,
-					4810497956439288,
-					false
-				]
-,				[
-					-1,
-					cr.system_object.prototype.cnds.Compare,
-					null,
-					0,
+					2,
 					false,
 					false,
 					false,
-					4088144233325147,
+					5692367726812886,
 					false
 					,[
 					[
-						7,
-						[
-							19,
-							cr.system_object.prototype.exps.left
-							,[
-[
-								20,
-								25,
-								cr.plugins_.Dictionary.prototype.exps.CurrentKey,
-								true,
-								null
-							]
-,[
-								0,
-								6
-							]
-							]
-						]
-					]
-,					[
-						8,
-						1
-					]
-,					[
-						7,
+						1,
 						[
 							2,
-							"system"
+							"ShowSessions"
 						]
 					]
 					]
@@ -28424,34 +28447,444 @@ false,false,7442625126502046,false
 				],
 				[
 				[
-					-1,
-					cr.system_object.prototype.acts.CreateObject,
+					25,
+					cr.plugins_.Dictionary.prototype.acts.JSONLoad,
 					null,
-					9216128950055551,
+					2458951589931217,
 					false
 					,[
 					[
-						4,
-						27
-					]
-,					[
-						5,
+						1,
 						[
-							0,
-							3
+							20,
+							24,
+							cr.plugins_.WebStorage.prototype.exps.AsJSON,
+							true,
+							null
 						]
 					]
-,					[
+					]
+				]
+,				[
+					27,
+					cr.plugins_.Text.prototype.acts.Destroy,
+					null,
+					6666605917706443,
+					false
+				]
+,				[
+					35,
+					cr.plugins_.Sprite.prototype.acts.SetY,
+					null,
+					3066814625770834,
+					false
+					,[
+					[
 						0,
 						[
 							0,
-							120
+							480
 						]
 					]
-,					[
+					]
+				]
+,				[
+					26,
+					cr.plugins_.Dictionary.prototype.acts.Clear,
+					null,
+					5330992668026272,
+					false
+				]
+				]
+				,[
+				[
+					1,
+					"i",
+					0,
+					0,
+false,false,7442625126502046,false
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					2107298083544855,
+					[
+					[
+						25,
+						cr.plugins_.Dictionary.prototype.cnds.ForEachKey,
+						null,
 						0,
+						true,
+						false,
+						false,
+						4810497956439288,
+						false
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.Compare,
+						null,
+						0,
+						false,
+						false,
+						false,
+						4088144233325147,
+						false
+						,[
+						[
+							7,
+							[
+								19,
+								cr.system_object.prototype.exps.left
+								,[
+[
+									20,
+									25,
+									cr.plugins_.Dictionary.prototype.exps.CurrentKey,
+									true,
+									null
+								]
+,[
+									0,
+									6
+								]
+								]
+							]
+						]
+,						[
+							8,
+							1
+						]
+,						[
+							7,
+							[
+								2,
+								"system"
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.CreateObject,
+						null,
+						9216128950055551,
+						false
+						,[
 						[
 							4,
+							27
+						]
+,						[
+							5,
+							[
+								0,
+								3
+							]
+						]
+,						[
+							0,
+							[
+								0,
+								120
+							]
+						]
+,						[
+							0,
+							[
+								4,
+								[
+									6,
+									[
+										23,
+										"i"
+									]
+									,[
+										0,
+										110
+									]
+								]
+								,[
+									0,
+									480
+								]
+							]
+						]
+						]
+					]
+,					[
+						55,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						6559149181470225,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"FormatTimer"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										19,
+										cr.system_object.prototype.exps["int"]
+										,[
+[
+											20,
+											25,
+											cr.plugins_.Dictionary.prototype.exps.CurrentValue,
+											false,
+											null
+										]
+										]
+									]
+								]
+						]
+						]
+					]
+,					[
+						27,
+						cr.plugins_.Text.prototype.acts.SetText,
+						null,
+						4404489415323548,
+						false
+						,[
+						[
+							7,
+							[
+								10,
+								[
+									2,
+									"     "
+								]
+								,[
+									20,
+									25,
+									cr.plugins_.Dictionary.prototype.exps.CurrentKey,
+									true,
+									null
+								]
+							]
+						]
+						]
+					]
+,					[
+						27,
+						cr.plugins_.Text.prototype.acts.SetInstanceVar,
+						null,
+						3179050664253291,
+						false
+						,[
+						[
+							10,
+							0
+						]
+,						[
+							7,
+							[
+								20,
+								25,
+								cr.plugins_.Dictionary.prototype.exps.CurrentKey,
+								true,
+								null
+							]
+						]
+						]
+					]
+,					[
+						27,
+						cr.plugins_.Text.prototype.acts.SetWebFont,
+						null,
+						5147918304567696,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"helen_bg_lightregular"
+							]
+						]
+,						[
+							1,
+							[
+								2,
+								"stylesheet.css"
+							]
+						]
+						]
+					]
+,					[
+						27,
+						cr.behaviors.Pin.prototype.acts.Pin,
+						"Pin",
+						9141736118098775,
+						false
+						,[
+						[
+							4,
+							35
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						28,
+						cr.plugins_.Sprite.prototype.acts.SetX,
+						null,
+						4939926625666289,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								40
+							]
+						]
+						]
+					]
+,					[
+						28,
+						cr.plugins_.Sprite.prototype.acts.StopAnim,
+						null,
+						8759570118612907,
+						false
+					]
+,					[
+						28,
+						cr.behaviors.Pin.prototype.acts.Pin,
+						"Pin",
+						1747265269334665,
+						false
+						,[
+						[
+							4,
+							35
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						36,
+						cr.plugins_.Text.prototype.acts.SetText,
+						null,
+						106520152607169,
+						false
+						,[
+						[
+							7,
+							[
+								20,
+								55,
+								cr.plugins_.Function.prototype.exps.ReturnValue,
+								false,
+								null
+							]
+						]
+						]
+					]
+,					[
+						36,
+						cr.plugins_.Text.prototype.acts.SetX,
+						null,
+						3757170329073031,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								650
+							]
+						]
+						]
+					]
+,					[
+						36,
+						cr.behaviors.Pin.prototype.acts.Pin,
+						"Pin",
+						982220443483164,
+						false
+						,[
+						[
+							4,
+							35
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						37,
+						cr.behaviors.Pin.prototype.acts.Pin,
+						"Pin",
+						9530388850841951,
+						false
+						,[
+						[
+							4,
+							35
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						1629582687172543,
+						false
+						,[
+						[
+							11,
+							"i"
+						]
+,						[
+							7,
+							[
+								4,
+								[
+									23,
+									"i"
+								]
+								,[
+									0,
+									1
+								]
+							]
+						]
+						]
+					]
+,					[
+						35,
+						cr.plugins_.Sprite.prototype.acts.SetHeight,
+						null,
+						1337872017652161,
+						false
+						,[
+						[
+							0,
 							[
 								6,
 								[
@@ -28463,1065 +28896,8 @@ false,false,7442625126502046,false
 									110
 								]
 							]
-							,[
-								0,
-								480
-							]
-						]
-					]
-					]
-				]
-,				[
-					53,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					6559149181470225,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"FormatTimer"
-						]
-					]
-,					[
-						13,
-													[
-								7,
-								[
-									19,
-									cr.system_object.prototype.exps["int"]
-									,[
-[
-										20,
-										25,
-										cr.plugins_.Dictionary.prototype.exps.CurrentValue,
-										false,
-										null
-									]
-									]
-								]
-							]
-					]
-					]
-				]
-,				[
-					27,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					4404489415323548,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								2,
-								"     "
-							]
-							,[
-								20,
-								25,
-								cr.plugins_.Dictionary.prototype.exps.CurrentKey,
-								true,
-								null
-							]
-						]
-					]
-					]
-				]
-,				[
-					27,
-					cr.plugins_.Text.prototype.acts.SetInstanceVar,
-					null,
-					3179050664253291,
-					false
-					,[
-					[
-						10,
-						0
-					]
-,					[
-						7,
-						[
-							20,
-							25,
-							cr.plugins_.Dictionary.prototype.exps.CurrentKey,
-							true,
-							null
-						]
-					]
-					]
-				]
-,				[
-					27,
-					cr.plugins_.Text.prototype.acts.SetWebFont,
-					null,
-					5147918304567696,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"helen_bg_lightregular"
-						]
-					]
-,					[
-						1,
-						[
-							2,
-							"stylesheet.css"
-						]
-					]
-					]
-				]
-,				[
-					27,
-					cr.behaviors.Pin.prototype.acts.Pin,
-					"Pin",
-					9141736118098775,
-					false
-					,[
-					[
-						4,
-						35
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					28,
-					cr.plugins_.Sprite.prototype.acts.SetX,
-					null,
-					4939926625666289,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							40
-						]
-					]
-					]
-				]
-,				[
-					28,
-					cr.plugins_.Sprite.prototype.acts.StopAnim,
-					null,
-					8759570118612907,
-					false
-				]
-,				[
-					28,
-					cr.behaviors.Pin.prototype.acts.Pin,
-					"Pin",
-					1747265269334665,
-					false
-					,[
-					[
-						4,
-						35
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					36,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					106520152607169,
-					false
-					,[
-					[
-						7,
-						[
-							20,
-							53,
-							cr.plugins_.Function.prototype.exps.ReturnValue,
-							false,
-							null
-						]
-					]
-					]
-				]
-,				[
-					36,
-					cr.plugins_.Text.prototype.acts.SetX,
-					null,
-					3757170329073031,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							650
-						]
-					]
-					]
-				]
-,				[
-					36,
-					cr.behaviors.Pin.prototype.acts.Pin,
-					"Pin",
-					982220443483164,
-					false
-					,[
-					[
-						4,
-						35
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					37,
-					cr.behaviors.Pin.prototype.acts.Pin,
-					"Pin",
-					9530388850841951,
-					false
-					,[
-					[
-						4,
-						35
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					1629582687172543,
-					false
-					,[
-					[
-						11,
-						"i"
-					]
-,					[
-						7,
-						[
-							4,
-							[
-								23,
-								"i"
-							]
-							,[
-								0,
-								1
-							]
-						]
-					]
-					]
-				]
-,				[
-					35,
-					cr.plugins_.Sprite.prototype.acts.SetHeight,
-					null,
-					1337872017652161,
-					false
-					,[
-					[
-						0,
-						[
-							6,
-							[
-								23,
-								"i"
-							]
-							,[
-								0,
-								110
-							]
-						]
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			2480777574599118,
-			[
-			[
-				51,
-				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				8657129695997403,
-				false
-				,[
-				[
-					4,
-					30
-				]
-				]
-			]
-			],
-			[
-			[
-				53,
-				cr.plugins_.Function.prototype.acts.CallFunction,
-				null,
-				1094909807257481,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"DeleteSelectedSessions"
-					]
-				]
-,				[
-					13,
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			true,
-			null,
-			7318383871191552,
-			[
-			[
-				51,
-				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				7765019209460446,
-				false
-				,[
-				[
-					4,
-					27
-				]
-				]
-			]
-,			[
-				51,
-				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				6320853752312201,
-				false
-				,[
-				[
-					4,
-					28
-				]
-				]
-			]
-,			[
-				51,
-				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				4201535308568552,
-				false
-				,[
-				[
-					4,
-					36
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				8874360213936592,
-				[
-				[
-					27,
-					cr.plugins_.Text.prototype.cnds.CompareOpacity,
-					null,
-					0,
-					false,
-					false,
-					false,
-					2280624451091217,
-					false
-					,[
-					[
-						8,
-						4
-					]
-,					[
-						0,
-						[
-							0,
-							20
-						]
-					]
-					]
-				]
-				],
-				[
-				]
-				,[
-				[
-					0,
-					null,
-					false,
-					null,
-					3452453323179045,
-					[
-					[
-						26,
-						cr.plugins_.Dictionary.prototype.cnds.HasKey,
-						null,
-						0,
-						false,
-						false,
-						false,
-						8388970568872932,
-						false
-						,[
-						[
-							1,
-							[
-								19,
-								cr.system_object.prototype.exps.str
-								,[
-[
-									20,
-									27,
-									cr.plugins_.Text.prototype.exps.UID,
-									false,
-									null
-								]
-								]
-							]
 						]
 						]
-					]
-					],
-					[
-					[
-						28,
-						cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
-						null,
-						4531750411626436,
-						false
-						,[
-						[
-							0,
-							[
-								0,
-								0
-							]
-						]
-						]
-					]
-,					[
-						26,
-						cr.plugins_.Dictionary.prototype.acts.DeleteKey,
-						null,
-						5790811624402996,
-						false
-						,[
-						[
-							1,
-							[
-								19,
-								cr.system_object.prototype.exps.str
-								,[
-[
-									20,
-									27,
-									cr.plugins_.Text.prototype.exps.UID,
-									false,
-									null
-								]
-								]
-							]
-						]
-						]
-					]
-					]
-				]
-,				[
-					0,
-					null,
-					false,
-					null,
-					6833872495112967,
-					[
-					[
-						-1,
-						cr.system_object.prototype.cnds.Else,
-						null,
-						0,
-						false,
-						false,
-						false,
-						8742060089888523,
-						false
-					]
-					],
-					[
-					[
-						28,
-						cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
-						null,
-						1795345186035079,
-						false
-						,[
-						[
-							0,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-,					[
-						26,
-						cr.plugins_.Dictionary.prototype.acts.AddKey,
-						null,
-						8692106391041706,
-						false
-						,[
-						[
-							1,
-							[
-								19,
-								cr.system_object.prototype.exps.str
-								,[
-[
-									20,
-									27,
-									cr.plugins_.Text.prototype.exps.UID,
-									false,
-									null
-								]
-								]
-							]
-						]
-,						[
-							7,
-							[
-								21,
-								27,
-								true,
-								null
-								,0
-							]
-						]
-						]
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			8755115403489652,
-			[
-			[
-				53,
-				cr.plugins_.Function.prototype.cnds.OnFunction,
-				null,
-				2,
-				false,
-				false,
-				false,
-				1363544651039805,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"DeleteSelectedSessions"
-					]
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				6229452586234726,
-				[
-				[
-					26,
-					cr.plugins_.Dictionary.prototype.cnds.ForEachKey,
-					null,
-					0,
-					true,
-					false,
-					false,
-					4523293638629619,
-					false
-				]
-				],
-				[
-				[
-					24,
-					cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
-					null,
-					1430886200556005,
-					false
-					,[
-					[
-						1,
-						[
-							20,
-							26,
-							cr.plugins_.Dictionary.prototype.exps.CurrentValue,
-							false,
-							null
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				8105203974241238,
-				[
-				],
-				[
-				[
-					53,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					6774523674593877,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"ShowSessions"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			[true, "DeleteAll"],
-			false,
-			null,
-			7222066420905735,
-			[
-			[
-				-1,
-				cr.system_object.prototype.cnds.IsGroupActive,
-				null,
-				0,
-				false,
-				false,
-				false,
-				7222066420905735,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"DeleteAll"
-					]
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				3635047565575739,
-				[
-				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
-					null,
-					0,
-					false,
-					false,
-					false,
-					4196323841153054,
-					false
-					,[
-					[
-						4,
-						29
-					]
-					]
-				]
-				],
-				[
-				[
-					29,
-					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
-					null,
-					4324348358381235,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				5956237381081633,
-				[
-				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
-					null,
-					0,
-					false,
-					true,
-					false,
-					594255301225398,
-					false
-					,[
-					[
-						4,
-						29
-					]
-					]
-				]
-				],
-				[
-				[
-					29,
-					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
-					null,
-					5568260154458491,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				6220928463927363,
-				[
-				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
-					null,
-					1,
-					false,
-					false,
-					false,
-					8602376285671954,
-					false
-				]
-,				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
-					null,
-					0,
-					false,
-					false,
-					false,
-					643824916899517,
-					false
-					,[
-					[
-						4,
-						29
-					]
-					]
-				]
-				],
-				[
-				[
-					24,
-					cr.plugins_.WebStorage.prototype.acts.ClearLocal,
-					null,
-					753549878066586,
-					false
-				]
-,				[
-					53,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					3652290784325334,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"ShowSessions"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			[true, "Delete"],
-			false,
-			null,
-			2494679291355552,
-			[
-			[
-				-1,
-				cr.system_object.prototype.cnds.IsGroupActive,
-				null,
-				0,
-				false,
-				false,
-				false,
-				2494679291355552,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"Delete"
-					]
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				3635047565575739,
-				[
-				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
-					null,
-					0,
-					false,
-					false,
-					false,
-					4196323841153054,
-					false
-					,[
-					[
-						4,
-						30
-					]
-					]
-				]
-				],
-				[
-				[
-					30,
-					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
-					null,
-					4324348358381235,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				5956237381081633,
-				[
-				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
-					null,
-					0,
-					false,
-					true,
-					false,
-					594255301225398,
-					false
-					,[
-					[
-						4,
-						30
-					]
-					]
-				]
-				],
-				[
-				[
-					30,
-					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
-					null,
-					5568260154458491,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				6220928463927363,
-				[
-				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
-					null,
-					1,
-					false,
-					false,
-					false,
-					8602376285671954,
-					false
-				]
-,				[
-					51,
-					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
-					null,
-					0,
-					false,
-					false,
-					false,
-					643824916899517,
-					false
-					,[
-					[
-						4,
-						30
-					]
-					]
-				]
-				],
-				[
-				[
-					53,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					3652290784325334,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"DeleteSelectedSessions"
-						]
-					]
-,					[
-						13,
 					]
 					]
 				]
@@ -29569,7 +28945,7 @@ false,false,9437714858162737,false
 			[true, "Scroll"],
 			false,
 			null,
-			772165580978894,
+			1347959751868995,
 			[
 			[
 				-1,
@@ -29579,7 +28955,7 @@ false,false,9437714858162737,false
 				false,
 				false,
 				false,
-				772165580978894,
+				1347959751868995,
 				false
 				,[
 				[
@@ -29603,7 +28979,7 @@ false,false,9437714858162737,false
 				5367973436248222,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -29725,7 +29101,7 @@ false,false,9437714858162737,false
 							7,
 							[
 								20,
-								51,
+								53,
 								cr.plugins_.Touch.prototype.exps.Y,
 								false,
 								null
@@ -29786,7 +29162,7 @@ false,false,9437714858162737,false
 									5,
 									[
 										20,
-										51,
+										53,
 										cr.plugins_.Touch.prototype.exps.Y,
 										false,
 										null
@@ -29846,7 +29222,7 @@ false,false,9437714858162737,false
 							7,
 							[
 								20,
-								51,
+								53,
 								cr.plugins_.Touch.prototype.exps.Y,
 								false,
 								null
@@ -29864,7 +29240,7 @@ false,false,9437714858162737,false
 					2000529319616462,
 					[
 					[
-						51,
+						53,
 						cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 						null,
 						1,
@@ -29911,7 +29287,7 @@ false,false,9437714858162737,false
 							7,
 							[
 								20,
-								51,
+								53,
 								cr.plugins_.Touch.prototype.exps.Y,
 								false,
 								null
@@ -30638,6 +30014,763 @@ false,false,9437714858162737,false
 			]
 			]
 		]
+,		[
+			0,
+			[true, "DeleteSelected"],
+			false,
+			null,
+			347732074891333,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
+				null,
+				0,
+				false,
+				false,
+				false,
+				347732074891333,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"DeleteSelected"
+					]
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				true,
+				null,
+				7318383871191552,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
+					null,
+					1,
+					false,
+					false,
+					false,
+					7765019209460446,
+					false
+					,[
+					[
+						4,
+						27
+					]
+					]
+				]
+,				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
+					null,
+					1,
+					false,
+					false,
+					false,
+					6320853752312201,
+					false
+					,[
+					[
+						4,
+						28
+					]
+					]
+				]
+,				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
+					null,
+					1,
+					false,
+					false,
+					false,
+					4201535308568552,
+					false
+					,[
+					[
+						4,
+						36
+					]
+					]
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					8874360213936592,
+					[
+					[
+						28,
+						cr.plugins_.Sprite.prototype.cnds.CompareOpacity,
+						null,
+						0,
+						false,
+						false,
+						false,
+						2280624451091217,
+						false
+						,[
+						[
+							8,
+							4
+						]
+,						[
+							0,
+							[
+								0,
+								20
+							]
+						]
+						]
+					]
+					],
+					[
+					]
+					,[
+					[
+						0,
+						null,
+						false,
+						null,
+						3452453323179045,
+						[
+						[
+							26,
+							cr.plugins_.Dictionary.prototype.cnds.HasKey,
+							null,
+							0,
+							false,
+							false,
+							false,
+							8388970568872932,
+							false
+							,[
+							[
+								1,
+								[
+									19,
+									cr.system_object.prototype.exps.str
+									,[
+[
+										20,
+										27,
+										cr.plugins_.Text.prototype.exps.UID,
+										false,
+										null
+									]
+									]
+								]
+							]
+							]
+						]
+						],
+						[
+						[
+							28,
+							cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+							null,
+							4531750411626436,
+							false
+							,[
+							[
+								0,
+								[
+									0,
+									0
+								]
+							]
+							]
+						]
+,						[
+							26,
+							cr.plugins_.Dictionary.prototype.acts.DeleteKey,
+							null,
+							5790811624402996,
+							false
+							,[
+							[
+								1,
+								[
+									19,
+									cr.system_object.prototype.exps.str
+									,[
+[
+										20,
+										27,
+										cr.plugins_.Text.prototype.exps.UID,
+										false,
+										null
+									]
+									]
+								]
+							]
+							]
+						]
+						]
+					]
+,					[
+						0,
+						null,
+						false,
+						null,
+						6833872495112967,
+						[
+						[
+							-1,
+							cr.system_object.prototype.cnds.Else,
+							null,
+							0,
+							false,
+							false,
+							false,
+							8742060089888523,
+							false
+						]
+						],
+						[
+						[
+							28,
+							cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+							null,
+							1795345186035079,
+							false
+							,[
+							[
+								0,
+								[
+									0,
+									1
+								]
+							]
+							]
+						]
+,						[
+							26,
+							cr.plugins_.Dictionary.prototype.acts.AddKey,
+							null,
+							8692106391041706,
+							false
+							,[
+							[
+								1,
+								[
+									19,
+									cr.system_object.prototype.exps.str
+									,[
+[
+										20,
+										27,
+										cr.plugins_.Text.prototype.exps.UID,
+										false,
+										null
+									]
+									]
+								]
+							]
+,							[
+								7,
+								[
+									21,
+									27,
+									true,
+									null
+									,0
+								]
+							]
+							]
+						]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				2480777574599118,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
+					null,
+					1,
+					false,
+					false,
+					false,
+					8657129695997403,
+					false
+					,[
+					[
+						4,
+						30
+					]
+					]
+				]
+				],
+				[
+				[
+					55,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					1094909807257481,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"DeleteSelectedSessions"
+						]
+					]
+,					[
+						13,
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				8755115403489652,
+				[
+				[
+					55,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					1363544651039805,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"DeleteSelectedSessions"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					26,
+					cr.plugins_.Dictionary.prototype.acts.Clear,
+					null,
+					3950627948088916,
+					false
+				]
+,				[
+					55,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					6774523674593877,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"ShowSessions"
+						]
+					]
+,					[
+						13,
+					]
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			[true, "DeleteAll"],
+			false,
+			null,
+			7222066420905735,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
+				null,
+				0,
+				false,
+				false,
+				false,
+				7222066420905735,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"DeleteAll"
+					]
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				3635047565575739,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					false,
+					false,
+					4196323841153054,
+					false
+					,[
+					[
+						4,
+						29
+					]
+					]
+				]
+				],
+				[
+				[
+					29,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					4324348358381235,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				5956237381081633,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					true,
+					false,
+					594255301225398,
+					false
+					,[
+					[
+						4,
+						29
+					]
+					]
+				]
+				],
+				[
+				[
+					29,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					5568260154458491,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				6220928463927363,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
+					null,
+					1,
+					false,
+					false,
+					false,
+					8602376285671954,
+					false
+				]
+,				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					false,
+					false,
+					643824916899517,
+					false
+					,[
+					[
+						4,
+						29
+					]
+					]
+				]
+				],
+				[
+				[
+					24,
+					cr.plugins_.WebStorage.prototype.acts.ClearLocal,
+					null,
+					753549878066586,
+					false
+				]
+,				[
+					55,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					3652290784325334,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"ShowSessions"
+						]
+					]
+,					[
+						13,
+					]
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			[true, "Delete"],
+			false,
+			null,
+			2494679291355552,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
+				null,
+				0,
+				false,
+				false,
+				false,
+				2494679291355552,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Delete"
+					]
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				3635047565575739,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					false,
+					false,
+					4196323841153054,
+					false
+					,[
+					[
+						4,
+						30
+					]
+					]
+				]
+				],
+				[
+				[
+					30,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					4324348358381235,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				5956237381081633,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					true,
+					false,
+					594255301225398,
+					false
+					,[
+					[
+						4,
+						30
+					]
+					]
+				]
+				],
+				[
+				[
+					30,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					5568260154458491,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				6220928463927363,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
+					null,
+					1,
+					false,
+					false,
+					false,
+					8602376285671954,
+					false
+				]
+,				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					false,
+					false,
+					643824916899517,
+					false
+					,[
+					[
+						4,
+						30
+					]
+					]
+				]
+				],
+				[
+				[
+					55,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					3652290784325334,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"DeleteSelectedSessions"
+						]
+					]
+,					[
+						13,
+					]
+					]
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
@@ -30849,6 +30982,13 @@ false,false,9437714858162737,false
 			false
 		]
 ,		[
+			1,
+			"TouchStartedOnSliderBarBg",
+			0,
+			0,
+false,false,3694013628831051,false
+		]
+,		[
 			0,
 			null,
 			false,
@@ -31031,36 +31171,12 @@ false,false,9437714858162737,false
 				6019743378023342,
 				false
 			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			8322374628576181,
-			[
-			],
-			[
-			[
-				-1,
-				cr.system_object.prototype.acts.SetVar,
+,			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.StopAnim,
 				null,
-				7399439905752583,
+				9156341848858892,
 				false
-				,[
-				[
-					11,
-					"Muted"
-				]
-,				[
-					7,
-					[
-						0,
-						0
-					]
-				]
-				]
 			]
 			]
 		]
@@ -31072,7 +31188,7 @@ false,false,9437714858162737,false
 			3220800568793862,
 			[
 			[
-				51,
+				53,
 				cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 				null,
 				0,
@@ -31101,10 +31217,101 @@ false,false,9437714858162737,false
 					0,
 					[
 						20,
-						51,
+						53,
 						cr.plugins_.Touch.prototype.exps.X,
 						false,
 						null
+					]
+				]
+				]
+			]
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				4565833055979684,
+				[
+				[
+					47,
+					cr.plugins_.Sprite.prototype.cnds.CompareX,
+					null,
+					0,
+					false,
+					false,
+					false,
+					5083046000518281,
+					false
+					,[
+					[
+						8,
+						3
+					]
+,					[
+						0,
+						[
+							0,
+							73
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					49,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					9547379915533585,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				349834231031395,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.Else,
+					null,
+					0,
+					false,
+					false,
+					false,
+					7826105541643812,
+					false
+				]
+				],
+				[
+				[
+					49,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					931187619083033,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							0
+						]
+					]
 					]
 				]
 				]
@@ -31293,10 +31500,69 @@ false,false,9437714858162737,false
 			null,
 			false,
 			null,
+			4859920081969273,
+			[
+			[
+				53,
+				cr.plugins_.Touch.prototype.cnds.OnTouchStart,
+				null,
+				1,
+				false,
+				false,
+				false,
+				3379664230361841,
+				false
+			]
+,			[
+				53,
+				cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+				null,
+				0,
+				false,
+				false,
+				false,
+				5319984094808493,
+				false
+				,[
+				[
+					4,
+					48
+				]
+				]
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				692154595351107,
+				false
+				,[
+				[
+					11,
+					"TouchStartedOnSliderBarBg"
+				]
+,				[
+					7,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			7938988908634262,
 			[
 			[
-				51,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 				null,
 				1,
@@ -31305,6 +31571,34 @@ false,false,9437714858162737,false
 				false,
 				5510624317006797,
 				false
+			]
+,			[
+				-1,
+				cr.system_object.prototype.cnds.CompareVar,
+				null,
+				0,
+				false,
+				false,
+				false,
+				1200779420073554,
+				false
+				,[
+				[
+					11,
+					"TouchStartedOnSliderBarBg"
+				]
+,				[
+					8,
+					0
+				]
+,				[
+					7,
+					[
+						0,
+						1
+					]
+				]
+				]
 			]
 			],
 			[
@@ -31353,7 +31647,7 @@ false,false,9437714858162737,false
 				]
 			]
 ,			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.Play,
 				null,
 				1950627965362624,
@@ -31422,6 +31716,351 @@ false,false,9437714858162737,false
 				]
 				]
 			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				1982653413782901,
+				false
+				,[
+				[
+					11,
+					"TouchStartedOnSliderBarBg"
+				]
+,				[
+					7,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			9438368712545609,
+			[
+			[
+				53,
+				cr.plugins_.Touch.prototype.cnds.OnTapGesture,
+				null,
+				1,
+				false,
+				false,
+				false,
+				4515984225126531,
+				false
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				true,
+				null,
+				2241448005049936,
+				[
+				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					false,
+					false,
+					1310820491127185,
+					false
+					,[
+					[
+						4,
+						49
+					]
+					]
+				]
+,				[
+					53,
+					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
+					null,
+					0,
+					false,
+					false,
+					false,
+					8156976751945139,
+					false
+					,[
+					[
+						4,
+						50
+					]
+					]
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					7984377477416817,
+					[
+					[
+						49,
+						cr.plugins_.Sprite.prototype.cnds.CompareFrame,
+						null,
+						0,
+						false,
+						false,
+						false,
+						4185784784259011,
+						false
+						,[
+						[
+							8,
+							0
+						]
+,						[
+							0,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						49,
+						cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+						null,
+						6352157036362405,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+,					[
+						47,
+						cr.plugins_.Sprite.prototype.acts.SetX,
+						null,
+						1526046205281998,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								700
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						2732443342020382,
+						false
+						,[
+						[
+							11,
+							"Muted"
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+,					[
+						24,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						4111634414421359,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"system.muted"
+							]
+						]
+,						[
+							7,
+							[
+								23,
+								"Muted"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.Wait,
+						null,
+						1752846946945678,
+						false
+						,[
+						[
+							0,
+							[
+								1,
+								0.05
+							]
+						]
+						]
+					]
+,					[
+						56,
+						cr.plugins_.Audio.prototype.acts.Play,
+						null,
+						3763448112521665,
+						false
+						,[
+						[
+							2,
+							["click",false]
+						]
+,						[
+							3,
+							0
+						]
+,						[
+							0,
+							[
+								23,
+								"Volume"
+							]
+						]
+,						[
+							1,
+							[
+								2,
+								"Click"
+							]
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					791520948356593,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.Else,
+						null,
+						0,
+						false,
+						false,
+						false,
+						4503830198008374,
+						false
+					]
+					],
+					[
+					[
+						49,
+						cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+						null,
+						1804197584290765,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+,					[
+						47,
+						cr.plugins_.Sprite.prototype.acts.SetX,
+						null,
+						6623778124457255,
+						false
+						,[
+						[
+							0,
+							[
+								0,
+								73
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						6980131078245177,
+						false
+						,[
+						[
+							11,
+							"Muted"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+,					[
+						24,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						9555374701570817,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"system.muted"
+							]
+						]
+,						[
+							7,
+							[
+								23,
+								"Muted"
+							]
+						]
+						]
+					]
+					]
+				]
+				]
+			]
 			]
 		]
 		]
@@ -31468,7 +32107,7 @@ false,false,9437714858162737,false
 				3635047565575739,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -31512,7 +32151,7 @@ false,false,9437714858162737,false
 				5956237381081633,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -31556,7 +32195,7 @@ false,false,9437714858162737,false
 				6220928463927363,
 				[
 				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.OnTouchEnd,
 					null,
 					1,
@@ -31567,7 +32206,7 @@ false,false,9437714858162737,false
 					false
 				]
 ,				[
-					51,
+					53,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -31610,7 +32249,7 @@ false,false,9437714858162737,false
 			2904722849096663,
 			[
 			[
-				52,
+				54,
 				cr.plugins_.Browser.prototype.cnds.OnBackButton,
 				null,
 				1,
@@ -31676,31 +32315,124 @@ false,false,927888288248287,false
 			]
 			],
 			[
+			]
+			,[
 			[
-				-1,
-				cr.system_object.prototype.acts.SetVar,
+				0,
 				null,
-				4775418423183028,
-				false
-				,[
+				false,
+				null,
+				9451830796757436,
 				[
-					11,
-					"Volume"
-				]
-,				[
-					7,
+				[
+					24,
+					cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+					null,
+					0,
+					false,
+					false,
+					false,
+					9093362486943928,
+					false
+					,[
 					[
-						20,
-						24,
-						cr.plugins_.WebStorage.prototype.exps.LocalValue,
-						true,
-						null
-						,[
-[
+						1,
+						[
 							2,
 							"system.volume"
 						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					4775418423183028,
+					false
+					,[
+					[
+						11,
+						"Volume"
+					]
+,					[
+						7,
+						[
+							20,
+							24,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"system.volume"
+							]
+							]
 						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				1438470767438714,
+				[
+				[
+					24,
+					cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+					null,
+					0,
+					false,
+					false,
+					false,
+					6159240855748483,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"system.muted"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					7141592925338942,
+					false
+					,[
+					[
+						11,
+						"Muted"
+					]
+,					[
+						7,
+						[
+							20,
+							24,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								2,
+								"system.muted"
+							]
+							]
+						]
+					]
 					]
 				]
 				]
@@ -31715,7 +32447,7 @@ false,false,927888288248287,false
 			1973648341878865,
 			[
 			[
-				53,
+				55,
 				cr.plugins_.Function.prototype.cnds.OnFunction,
 				null,
 				2,
@@ -31737,7 +32469,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				53,
+				55,
 				cr.plugins_.Function.prototype.acts.SetReturnValue,
 				null,
 				4930765189448741,
@@ -31773,7 +32505,7 @@ false,false,927888288248287,false
 															7,
 															[
 																20,
-																53,
+																55,
 																cr.plugins_.Function.prototype.exps.Param,
 																false,
 																null
@@ -31828,7 +32560,7 @@ false,false,927888288248287,false
 														7,
 														[
 															20,
-															53,
+															55,
 															cr.plugins_.Function.prototype.exps.Param,
 															false,
 															null
@@ -31876,7 +32608,7 @@ false,false,927888288248287,false
 															7,
 															[
 																20,
-																53,
+																55,
 																cr.plugins_.Function.prototype.exps.Param,
 																false,
 																null
@@ -31912,7 +32644,7 @@ false,false,927888288248287,false
 													7,
 													[
 														20,
-														53,
+														55,
 														cr.plugins_.Function.prototype.exps.Param,
 														false,
 														null
@@ -31960,7 +32692,7 @@ false,false,927888288248287,false
 											8,
 											[
 												20,
-												53,
+												55,
 												cr.plugins_.Function.prototype.exps.Param,
 												false,
 												null
@@ -32001,7 +32733,7 @@ false,false,927888288248287,false
 												8,
 												[
 													20,
-													53,
+													55,
 													cr.plugins_.Function.prototype.exps.Param,
 													false,
 													null
@@ -32030,7 +32762,7 @@ false,false,927888288248287,false
 										8,
 										[
 											20,
-											53,
+											55,
 											cr.plugins_.Function.prototype.exps.Param,
 											false,
 											null
@@ -32065,7 +32797,7 @@ false,false,927888288248287,false
 			8147033323036818,
 			[
 			[
-				51,
+				53,
 				cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 				null,
 				1,
@@ -32077,14 +32809,14 @@ false,false,927888288248287,false
 				,[
 				[
 					4,
-					55
+					57
 				]
 				]
 			]
 			],
 			[
 			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.Play,
 				null,
 				4312638854175608,
@@ -32126,7 +32858,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetMasterVolume,
 				null,
 				5805099141174639,
@@ -32142,7 +32874,7 @@ false,false,927888288248287,false
 				]
 			]
 ,			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetVolume,
 				null,
 				6083885551064867,
@@ -32165,7 +32897,7 @@ false,false,927888288248287,false
 				]
 			]
 ,			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetVolume,
 				null,
 				8303350436733635,
@@ -32227,7 +32959,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetSilent,
 				null,
 				3575674432050152,
@@ -32279,7 +33011,7 @@ false,false,927888288248287,false
 			],
 			[
 			[
-				54,
+				56,
 				cr.plugins_.Audio.prototype.acts.SetSilent,
 				null,
 				4451916300644091,
