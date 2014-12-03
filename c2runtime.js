@@ -33397,7 +33397,7 @@ false,false,927888288248287,false
 	true,
 	true,
 	true,
-	"1.0.0",
+	"1.0.1",
 	true,
 	true,
 	0,
