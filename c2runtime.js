@@ -31178,6 +31178,22 @@ false,false,3694013628831051,false
 				9156341848858892,
 				false
 			]
+,			[
+				49,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				5921502529161438,
+				false
+				,[
+				[
+					0,
+					[
+						23,
+						"Muted"
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -31387,6 +31403,29 @@ false,false,3694013628831051,false
 				]
 				]
 			]
+,			[
+				24,
+				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+				null,
+				9827057236893102,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"system.muted"
+					]
+				]
+,				[
+					7,
+					[
+						23,
+						"Muted"
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -31438,6 +31477,29 @@ false,false,3694013628831051,false
 					[
 						0,
 						0
+					]
+				]
+				]
+			]
+,			[
+				24,
+				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+				null,
+				4614817046852578,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"system.muted"
+					]
+				]
+,				[
+					7,
+					[
+						23,
+						"Muted"
 					]
 				]
 				]
@@ -31679,22 +31741,6 @@ false,false,3694013628831051,false
 			]
 ,			[
 				24,
-				cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
-				null,
-				4747276585566197,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"system.volume"
-					]
-				]
-				]
-			]
-,			[
-				24,
 				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
 				null,
 				9545146708251706,
@@ -31874,6 +31920,73 @@ false,false,3694013628831051,false
 						-1,
 						cr.system_object.prototype.acts.SetVar,
 						null,
+						8570077924315548,
+						false
+						,[
+						[
+							11,
+							"Volume"
+						]
+,						[
+							7,
+							[
+								5,
+								[
+									7,
+									[
+										5,
+										[
+											20,
+											47,
+											cr.plugins_.Sprite.prototype.exps.X,
+											false,
+											null
+										]
+										,[
+											0,
+											73
+										]
+									]
+									,[
+										0,
+										10
+									]
+								]
+								,[
+									0,
+									65
+								]
+							]
+						]
+						]
+					]
+,					[
+						24,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						7411530309936985,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"system.volume"
+							]
+						]
+,						[
+							7,
+							[
+								23,
+								"Volume"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
 						2732443342020382,
 						false
 						,[
@@ -32010,6 +32123,73 @@ false,false,3694013628831051,false
 							[
 								0,
 								73
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						5137303705919937,
+						false
+						,[
+						[
+							11,
+							"Volume"
+						]
+,						[
+							7,
+							[
+								5,
+								[
+									7,
+									[
+										5,
+										[
+											20,
+											47,
+											cr.plugins_.Sprite.prototype.exps.X,
+											false,
+											null
+										]
+										,[
+											0,
+											73
+										]
+									]
+									,[
+										0,
+										10
+									]
+								]
+								,[
+									0,
+									65
+								]
+							]
+						]
+						]
+					]
+,					[
+						24,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						1293376583043808,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"system.volume"
+							]
+						]
+,						[
+							7,
+							[
+								23,
+								"Volume"
 							]
 						]
 						]
@@ -33407,7 +33587,7 @@ false,false,927888288248287,false
 	true,
 	2,
 	true,
-	"KickCounter",
+	"Брой до 10",
 	[
 		[27,28,37,36]
 ,		[46,47,48]
